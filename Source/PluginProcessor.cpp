@@ -25,13 +25,17 @@ MultitrackPannerAudioProcessor::MultitrackPannerAudioProcessor()
                        apvts(*this, nullptr, "PARAMETERS", createParameterLayout())
 #endif
 {
+    apvts.addParameterListener(gain1ID, this);
     apvts.addParameterListener(pan1ID, this);
+    apvts.addParameterListener(gain2ID, this);
     apvts.addParameterListener(pan2ID, this);
 }
 
 MultitrackPannerAudioProcessor::~MultitrackPannerAudioProcessor()
 {
+    apvts.removeParameterListener(gain1ID, this);
     apvts.removeParameterListener(pan1ID, this);
+    apvts.removeParameterListener(gain2ID, this);
     apvts.removeParameterListener(pan2ID, this);
 }
 
@@ -40,10 +44,15 @@ juce::AudioProcessorValueTreeState::ParameterLayout MultitrackPannerAudioProcess
     //parameters of the apvts are stored in a vector as unique_pointers to RangedAudioParamter
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
 
+    auto pGain1 = std::make_unique<juce::AudioParameterFloat>(gain1ID, gain1Name, -12.0f, 12.0f, 0.0f);
     auto pPan1 = std::make_unique<juce::AudioParameterFloat>(pan1ID, pan1Name, -1.0f, 1.0f, 0.0f);
+
+    auto pGain2 = std::make_unique<juce::AudioParameterFloat>(gain2ID, gain2Name, -12.0f, 12.0f, 0.0f);
     auto pPan2 = std::make_unique<juce::AudioParameterFloat>(pan2ID, pan2Name, -1.0f, 1.0f, 0.0f);
 
+    params.push_back(std::move(pGain1));
     params.push_back(std::move(pPan1));
+    params.push_back(std::move(pGain2));
     params.push_back(std::move(pPan2));
 
     return{ params.begin(), params.end() };
@@ -58,9 +67,9 @@ void MultitrackPannerAudioProcessor::parameterChanged(const juce::String& parame
 
 void MultitrackPannerAudioProcessor::updateParameters()
 {
-    //panModule1.setPan(apvts.getRawParameterValue("pan1")->load());
-    //panModule2.setPan(apvts.getRawParameterValue("pan2")->load());
     customPanModule1.setPan(apvts.getRawParameterValue(pan1ID)->load(), apvts.getRawParameterValue(pan2ID)->load());
+    gainModule1.setGainDecibels(apvts.getRawParameterValue(gain1ID)->load());
+    gainModule2.setGainDecibels(apvts.getRawParameterValue(gain2ID)->load());
 }
 
 //==============================================================================
@@ -133,12 +142,14 @@ void MultitrackPannerAudioProcessor::prepareToPlay (double sampleRate, int sampl
     spec.sampleRate = sampleRate;
     spec.numChannels = 2;
 
-   /* panModule1.prepare(spec);
-    panModule1.setRule(juce::dsp::PannerRule::balanced);
-    panModule2.prepare(spec);
-    panModule2.setRule(juce::dsp::PannerRule::balanced);*/
-
     customPanModule1.prepare(spec);
+
+    gainModule1.prepare(spec);
+    gainModule1.setRampDurationSeconds(0.02f);
+
+    gainModule2.prepare(spec);
+    gainModule2.setRampDurationSeconds(0.02f);
+
 
     enableAllBuses();
     updateParameters();
@@ -163,12 +174,13 @@ void MultitrackPannerAudioProcessor::processBlock (juce::AudioBuffer<float>& buf
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
     juce::dsp::AudioBlock<float> block(buffer);
-    //auto block1 = block.getSingleChannelBlock(0);
-    //juce::dsp::ProcessContextNonReplacing<float> context1(block1,block);
+    juce::dsp::ProcessContextReplacing<float> context1(block.getSingleChannelBlock(0));
+    juce::dsp::ProcessContextReplacing<float> context2(block.getSingleChannelBlock(1));
+
+    gainModule1.process(context1);
+    gainModule2.process(context2);
+
     customPanModule1.process(block);
-
-    
-
 
 }
 

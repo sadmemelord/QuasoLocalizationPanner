@@ -72,11 +72,9 @@ private:
 
     //this method updates every parameter in the apvts
     void updateParameters();
-
-
-    /*juce::dsp::Panner<float> panModule1;
-    juce::dsp::Panner<float> panModule2;*/
-
+    
+    juce::dsp::Gain<float> gainModule1;
+    juce::dsp::Gain<float> gainModule2;
     CustomPanner customPanModule1;
     CustomPanner customPanModule2;
     //==============================================================================

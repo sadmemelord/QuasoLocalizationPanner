@@ -199,15 +199,20 @@ juce::AudioProcessorEditor* MultitrackPannerAudioProcessor::createEditor()
 //==============================================================================
 void MultitrackPannerAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
+    //method to save the vst parameters
+    juce::MemoryOutputStream    stream(destData, false);
+    apvts.state.writeToStream(stream);
 }
 
 void MultitrackPannerAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
+    //method to restore the vst parameters
+    auto tree = juce::ValueTree::readFromData(data, size_t(sizeInBytes));
+
+    if (tree.isValid())
+    {
+        apvts.state = tree;
+    }
 }
 
 //==============================================================================

@@ -18,6 +18,7 @@ MultitrackPannerAudioProcessor::MultitrackPannerAudioProcessor()
                        .withInput("Input_1", juce::AudioChannelSet::mono(), true)      
                        .withInput("Input_2", juce::AudioChannelSet::mono(), true)
                        .withInput("Input_3", juce::AudioChannelSet::mono(), true)
+                       .withInput("Input_4", juce::AudioChannelSet::mono(), true)
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
@@ -44,12 +45,16 @@ juce::AudioProcessorValueTreeState::ParameterLayout MultitrackPannerAudioProcess
     //parameters of the apvts are stored in a vector as unique_pointers to RangedAudioParamter
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
 
+    //every input track has to be panned in the stereo field L/R and placed at a certain distance
+    //Movement in the L/R stereo field is made with a panner.
+    //The distance feel is made with a combination of Gain, Filtering and Reverb
+    //FUTURE UPDATE: PEAK FILTER AND MUTE BUTTON FOR EACH TRACK
     auto pGain1 = std::make_unique<juce::AudioParameterFloat>(gain1ID, gain1Name, -12.0f, 12.0f, 0.0f);
     auto pPan1 = std::make_unique<juce::AudioParameterFloat>(pan1ID, pan1Name, -1.0f, 1.0f, 0.0f);
-
     auto pGain2 = std::make_unique<juce::AudioParameterFloat>(gain2ID, gain2Name, -12.0f, 12.0f, 0.0f);
     auto pPan2 = std::make_unique<juce::AudioParameterFloat>(pan2ID, pan2Name, -1.0f, 1.0f, 0.0f);
 
+    //Every APVTS parameter is pushed in a vector
     params.push_back(std::move(pGain1));
     params.push_back(std::move(pPan1));
     params.push_back(std::move(pGain2));
@@ -67,7 +72,13 @@ void MultitrackPannerAudioProcessor::parameterChanged(const juce::String& parame
 
 void MultitrackPannerAudioProcessor::updateParameters()
 {
-    customPanModule1.setPan(apvts.getRawParameterValue(pan1ID)->load(), apvts.getRawParameterValue(pan2ID)->load());
+
+    newPans[0] = apvts.getRawParameterValue(pan1ID)->load();
+    newPans[1] = apvts.getRawParameterValue(pan2ID)->load();
+    newPans[2] = apvts.getRawParameterValue(pan1ID)->load();
+    newPans[3] = apvts.getRawParameterValue(pan2ID)->load();
+
+    customPanModuleV2.setPan(newPans);
     gainModule1.setGainDecibels(apvts.getRawParameterValue(gain1ID)->load());
     gainModule2.setGainDecibels(apvts.getRawParameterValue(gain2ID)->load());
 }
@@ -137,21 +148,26 @@ void MultitrackPannerAudioProcessor::changeProgramName (int index, const juce::S
 //==============================================================================
 void MultitrackPannerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
+    //Additional buses are disabled by default this method enables them all
+    //As of right now Juce is not working correctly with dynamic buses
+    enableAllBuses();
+
+    //Defining the DSP spec to easily pass useful data to the DSP modules
     juce::dsp::ProcessSpec spec;
-    spec.maximumBlockSize = samplesPerBlock;
     spec.sampleRate = sampleRate;
-    spec.numChannels = 2;
-
-    customPanModule1.prepare(spec);
-
+    spec.numChannels = getTotalNumOutputChannels();
+    spec.maximumBlockSize = samplesPerBlock;
+    
+    //Preparing DSP spec for the default gain modules and setting the ramp time between to values for smoothing
     gainModule1.prepare(spec);
     gainModule1.setRampDurationSeconds(0.02f);
-
     gainModule2.prepare(spec);
     gainModule2.setRampDurationSeconds(0.02f);
 
+    //Preparing the DSP spec for the customPanModuleV2.
+    //In the CustomPannerV2 class' methods sampleRate and numChannels aren't used
+    customPanModuleV2.prepare(spec);
 
-    enableAllBuses();
     updateParameters();
 }
 
@@ -163,7 +179,10 @@ void MultitrackPannerAudioProcessor::releaseResources()
 
 bool MultitrackPannerAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
 {
-    return true;
+    if (layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo() || layouts.getMainInputChannelSet() != juce::AudioChannelSet::mono())
+        return false;
+    else
+        return true;
 }
 
 
@@ -173,6 +192,11 @@ void MultitrackPannerAudioProcessor::processBlock (juce::AudioBuffer<float>& buf
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
+    //The default buffer size is set to 2 where the channel 0 and 1 represent the left and right channels.
+    //With this method the buffer channel size can be modified to accomodate a larger number of channels.
+    //Every channel in the buffer contains incoming input data while the stereo output data is written on channel 0 (L) and 1 (R)
+    buffer.setSize(totalNumInputChannels, buffer.getNumSamples(), false, false, false);
+
     juce::dsp::AudioBlock<float> block(buffer);
     juce::dsp::ProcessContextReplacing<float> context1(block.getSingleChannelBlock(0));
     juce::dsp::ProcessContextReplacing<float> context2(block.getSingleChannelBlock(1));
@@ -180,7 +204,7 @@ void MultitrackPannerAudioProcessor::processBlock (juce::AudioBuffer<float>& buf
     gainModule1.process(context1);
     gainModule2.process(context2);
 
-    customPanModule1.process(block);
+    customPanModuleV2.process(block);
 
 }
 
@@ -199,14 +223,16 @@ juce::AudioProcessorEditor* MultitrackPannerAudioProcessor::createEditor()
 //==============================================================================
 void MultitrackPannerAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    //method to save the vst parameters
+    //This methods saves the APVTS current parameters when the VST is closed
+
     juce::MemoryOutputStream    stream(destData, false);
     apvts.state.writeToStream(stream);
 }
 
 void MultitrackPannerAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    //method to restore the vst parameters
+    //This methods restores the last saved APVTS parameters
+
     auto tree = juce::ValueTree::readFromData(data, size_t(sizeInBytes));
 
     if (tree.isValid())

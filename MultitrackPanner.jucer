@@ -9,6 +9,10 @@
         <FILE id="Gbq9Dv" name="CustomPanner.cpp" compile="1" resource="0"
               file="Source/DSP/CustomPanner.cpp"/>
         <FILE id="oUkBro" name="CustomPanner.h" compile="0" resource="0" file="Source/DSP/CustomPanner.h"/>
+        <FILE id="k9hwN5" name="CustomPannerV2.cpp" compile="1" resource="0"
+              file="Source/DSP/CustomPannerV2.cpp"/>
+        <FILE id="XAjgc2" name="CustomPannerV2.h" compile="0" resource="0"
+              file="Source/DSP/CustomPannerV2.h"/>
       </GROUP>
       <GROUP id="{7F59C412-C274-2AC5-69C8-C786822F55A3}" name="Parameters">
         <FILE id="ya0qE5" name="Parameters.cpp" compile="1" resource="0" file="Source/Parameters/Parameters.cpp"/>

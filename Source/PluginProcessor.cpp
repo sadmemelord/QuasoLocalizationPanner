@@ -28,11 +28,13 @@ MultitrackPannerAudioProcessor::MultitrackPannerAudioProcessor()
 {
     //getting every parameter ID
     panIDs = getPanIDs();
+    gainIDs = getGainIDs();
 
     //adding every parameter listener
     for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
     {
         apvts.addParameterListener(panIDs[bus], this);
+        apvts.addParameterListener(gainIDs[bus], this);
     }
 
 }
@@ -43,6 +45,7 @@ MultitrackPannerAudioProcessor::~MultitrackPannerAudioProcessor()
     for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
     {
         apvts.removeParameterListener(panIDs[bus], this);
+        apvts.removeParameterListener(gainIDs[bus], this);
     }
 
 }
@@ -60,6 +63,8 @@ juce::AudioProcessorValueTreeState::ParameterLayout MultitrackPannerAudioProcess
     //two local arrays for parameter names and IDs are created
     juce::StringArray pPanIDs = getPanIDs();
     juce::StringArray pPanNames = getPanNames();
+    juce::StringArray pGainIDs = getGainIDs();
+    juce::StringArray pGainNames = getGainNames();
 
     for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
     {
@@ -70,6 +75,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout MultitrackPannerAudioProcess
 
         //Every APVTS parameter is pushed in a vector
         params.push_back(std::make_unique<juce::AudioParameterFloat>(pPanIDs[bus], pPanNames[bus], -1.0f, 1.0f, 0.0f));
+        params.push_back(std::make_unique<juce::AudioParameterFloat>(pGainIDs[bus], pGainNames[bus], -6.0f, 6.0f, 0.0f));
 
     }
 
@@ -89,9 +95,11 @@ void MultitrackPannerAudioProcessor::updateParameters()
     for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
     {
         newPans[bus] = apvts.getRawParameterValue(panIDs[bus])->load();
+        newGains[bus] = (apvts.getRawParameterValue(gainIDs[bus])->load());
     }
 
     //updating DSP modules parameter with those linked in the APVTS
+    customGainModule.setGainsDecibels(newGains);
     customPanModuleV2.setPan(newPans);
 
 }
@@ -170,10 +178,8 @@ void MultitrackPannerAudioProcessor::prepareToPlay (double sampleRate, int sampl
     spec.maximumBlockSize = samplesPerBlock;
     
     //Preparing DSP spec for the default gain modules and setting the ramp time between to values for smoothing
-    gainModule1.prepare(spec);
-    gainModule1.setRampDurationSeconds(0.02f);
-    gainModule2.prepare(spec);
-    gainModule2.setRampDurationSeconds(0.02f);
+    customGainModule.prepare(spec);
+    customGainModule.setRampDurationSeconds(0.02f);
 
     //Preparing the DSP spec for the customPanModuleV2.
     //In the CustomPannerV2 class' methods sampleRate and numChannels aren't used
@@ -209,11 +215,11 @@ void MultitrackPannerAudioProcessor::processBlock (juce::AudioBuffer<float>& buf
     buffer.setSize(totalNumInputChannels, buffer.getNumSamples(), false, false, false);
 
     juce::dsp::AudioBlock<float> block(buffer);
-    juce::dsp::ProcessContextReplacing<float> context1(block.getSingleChannelBlock(0));
-    juce::dsp::ProcessContextReplacing<float> context2(block.getSingleChannelBlock(1));
-
-
+    //juce::dsp::ProcessContextReplacing<float> context1(block.getSingleChannelBlock(0));
+    //juce::dsp::ProcessContextReplacing<float> context2(block.getSingleChannelBlock(1));
+    customGainModule.process(block);
     customPanModuleV2.process(block);
+
 
 }
 

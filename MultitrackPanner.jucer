@@ -6,6 +6,8 @@
   <MAINGROUP id="lF68lI" name="MultitrackPanner">
     <GROUP id="{A467FD8C-85B6-0E85-13E8-F60365BDD59C}" name="Source">
       <GROUP id="{E742206D-0324-FC6C-DB47-52688ACC18F8}" name="DSP">
+        <FILE id="kQTCD8" name="CustomGain.cpp" compile="1" resource="0" file="Source/DSP/CustomGain.cpp"/>
+        <FILE id="cvQDpX" name="CustomGain.h" compile="0" resource="0" file="Source/DSP/CustomGain.h"/>
         <FILE id="k9hwN5" name="CustomPannerV2.cpp" compile="1" resource="0"
               file="Source/DSP/CustomPannerV2.cpp"/>
         <FILE id="XAjgc2" name="CustomPannerV2.h" compile="0" resource="0"

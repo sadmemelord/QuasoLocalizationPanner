@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "DSP/CustomPannerV2.h"
+#include "DSP/CustomGain.h"
 
 //==============================================================================
 /**
@@ -89,11 +90,15 @@ private:
     //IDs and Names for each parameter of the APVTS are stored in String Arrays
     juce::StringArray panIDs;
     juce::StringArray panNames;
+    juce::StringArray gainIDs;
+    juce::StringArray gainNames;
 
     //ID and Name are needed to search a specific parameter in the APVTS, these methods defined in the Parameters.cpp file
     //allow return a string array containing IDs for each parameter
     juce::StringArray getPanIDs();
     juce::StringArray getPanNames();
+    juce::StringArray getGainIDs();
+    juce::StringArray getGainNames();
 
     //The CustomPannerV2 class allows the individual panning of an arbitrary number of mono tracks on a stereo output.
     //The only panning method avaiable is "Balanced" panning rule copied from the default juce::dsp::Panner class).
@@ -102,10 +107,13 @@ private:
     //FUTURE UPDATE: BYPASS BUTTON FOR EACH TRACK
     CustomPannerV2 customPanModuleV2;
 
+    CustomGain customGainModule;
+
     //This vector stores the new pan values passed to the customPanModuleV2.setPan() method, its size has to be equal 
     //to the _busNumber private variable in the CustomPannerV2 class
     //FUTURE UPDATE: CHECK IF THE VECTOR CAN BE INITIALIZED IN THE CONSTRUCTOR WITH A CUSTOM METHOD
     std::vector<float> newPans = { 0.0f, 0.0f, 0.0f, 0.0f};
+    std::vector<float> newGains = { 0.0f, 0.0f, 0.0f, 0.0f };
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MultitrackPannerAudioProcessor)

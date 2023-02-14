@@ -40,3 +40,33 @@ juce::StringArray MultitrackPannerAudioProcessor::getPanNames()
     return pNames;
 }
 
+juce::StringArray MultitrackPannerAudioProcessor::getGainIDs()
+{
+    juce::StringArray gIDs;
+
+    for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
+    {
+        juce::String id = "gain";
+        id << (bus + 1);
+
+        gIDs.add(id);
+    }
+
+    return gIDs;
+}
+
+juce::StringArray MultitrackPannerAudioProcessor::getGainNames()
+{
+    juce::StringArray gNames;
+
+    for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
+    {
+        juce::String name = "Gain ";
+        name << (bus + 1);
+
+        gNames.add(name);
+    }
+
+    return gNames;
+}
+

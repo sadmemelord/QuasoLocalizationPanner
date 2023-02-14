@@ -8,7 +8,6 @@
   ==============================================================================
 */
 
-#include "Parameters.h"
 #include "../PluginProcessor.h"
 
 juce::StringArray MultitrackPannerAudioProcessor::getPanIDs()

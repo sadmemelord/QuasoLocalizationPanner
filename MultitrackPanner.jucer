@@ -6,9 +6,6 @@
   <MAINGROUP id="lF68lI" name="MultitrackPanner">
     <GROUP id="{A467FD8C-85B6-0E85-13E8-F60365BDD59C}" name="Source">
       <GROUP id="{E742206D-0324-FC6C-DB47-52688ACC18F8}" name="DSP">
-        <FILE id="Gbq9Dv" name="CustomPanner.cpp" compile="1" resource="0"
-              file="Source/DSP/CustomPanner.cpp"/>
-        <FILE id="oUkBro" name="CustomPanner.h" compile="0" resource="0" file="Source/DSP/CustomPanner.h"/>
         <FILE id="k9hwN5" name="CustomPannerV2.cpp" compile="1" resource="0"
               file="Source/DSP/CustomPannerV2.cpp"/>
         <FILE id="XAjgc2" name="CustomPannerV2.h" compile="0" resource="0"
@@ -16,7 +13,6 @@
       </GROUP>
       <GROUP id="{7F59C412-C274-2AC5-69C8-C786822F55A3}" name="Parameters">
         <FILE id="ya0qE5" name="Parameters.cpp" compile="1" resource="0" file="Source/Parameters/Parameters.cpp"/>
-        <FILE id="I0cwef" name="Parameters.h" compile="0" resource="0" file="Source/Parameters/Parameters.h"/>
       </GROUP>
       <FILE id="QgAoIx" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>

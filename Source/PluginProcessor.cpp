@@ -26,39 +26,52 @@ MultitrackPannerAudioProcessor::MultitrackPannerAudioProcessor()
                        apvts(*this, nullptr, "PARAMETERS", createParameterLayout())
 #endif
 {
-    apvts.addParameterListener(gain1ID, this);
-    apvts.addParameterListener(pan1ID, this);
-    apvts.addParameterListener(gain2ID, this);
-    apvts.addParameterListener(pan2ID, this);
+    //getting every parameter ID
+    panIDs = getPanIDs();
+
+    //adding every parameter listener
+    for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
+    {
+        apvts.addParameterListener(panIDs[bus], this);
+    }
+
 }
 
 MultitrackPannerAudioProcessor::~MultitrackPannerAudioProcessor()
 {
-    apvts.removeParameterListener(gain1ID, this);
-    apvts.removeParameterListener(pan1ID, this);
-    apvts.removeParameterListener(gain2ID, this);
-    apvts.removeParameterListener(pan2ID, this);
+    //removing every parameter listener
+    for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
+    {
+        apvts.removeParameterListener(panIDs[bus], this);
+    }
+
 }
 
 juce::AudioProcessorValueTreeState::ParameterLayout MultitrackPannerAudioProcessor::createParameterLayout()
 {
+    //Additional buses are disabled by default this method enables them all
+    //As of right now Juce is not working correctly with dynamic buses
+    enableAllBuses();
+
     //parameters of the apvts are stored in a vector as unique_pointers to RangedAudioParamter
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
 
-    //every input track has to be panned in the stereo field L/R and placed at a certain distance
-    //Movement in the L/R stereo field is made with a panner.
-    //The distance feel is made with a combination of Gain, Filtering and Reverb
-    //FUTURE UPDATE: PEAK FILTER AND MUTE BUTTON FOR EACH TRACK
-    auto pGain1 = std::make_unique<juce::AudioParameterFloat>(gain1ID, gain1Name, -12.0f, 12.0f, 0.0f);
-    auto pPan1 = std::make_unique<juce::AudioParameterFloat>(pan1ID, pan1Name, -1.0f, 1.0f, 0.0f);
-    auto pGain2 = std::make_unique<juce::AudioParameterFloat>(gain2ID, gain2Name, -12.0f, 12.0f, 0.0f);
-    auto pPan2 = std::make_unique<juce::AudioParameterFloat>(pan2ID, pan2Name, -1.0f, 1.0f, 0.0f);
+    //because the APVTS constructor is called before the AudioProcessor constructor
+    //two local arrays for parameter names and IDs are created
+    juce::StringArray pPanIDs = getPanIDs();
+    juce::StringArray pPanNames = getPanNames();
 
-    //Every APVTS parameter is pushed in a vector
-    params.push_back(std::move(pGain1));
-    params.push_back(std::move(pPan1));
-    params.push_back(std::move(pGain2));
-    params.push_back(std::move(pPan2));
+    for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
+    {
+        //every input track has to be panned in the stereo field L/R and placed at a certain distance
+        //Movement in the L/R stereo field is made with a panner.
+        //The distance feel is made with a combination of Gain, Filtering and Reverb
+        //FUTURE UPDATE: PEAK FILTER AND MUTE BUTTON FOR EACH TRACK
+
+        //Every APVTS parameter is pushed in a vector
+        params.push_back(std::make_unique<juce::AudioParameterFloat>(pPanIDs[bus], pPanNames[bus], -1.0f, 1.0f, 0.0f));
+
+    }
 
     return{ params.begin(), params.end() };
 
@@ -72,15 +85,15 @@ void MultitrackPannerAudioProcessor::parameterChanged(const juce::String& parame
 
 void MultitrackPannerAudioProcessor::updateParameters()
 {
+    //loading the APVTS parameters, load() methos is needed because they're Atomic
+    for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
+    {
+        newPans[bus] = apvts.getRawParameterValue(panIDs[bus])->load();
+    }
 
-    newPans[0] = apvts.getRawParameterValue(pan1ID)->load();
-    newPans[1] = apvts.getRawParameterValue(pan2ID)->load();
-    newPans[2] = apvts.getRawParameterValue(pan1ID)->load();
-    newPans[3] = apvts.getRawParameterValue(pan2ID)->load();
-
+    //updating DSP modules parameter with those linked in the APVTS
     customPanModuleV2.setPan(newPans);
-    gainModule1.setGainDecibels(apvts.getRawParameterValue(gain1ID)->load());
-    gainModule2.setGainDecibels(apvts.getRawParameterValue(gain2ID)->load());
+
 }
 
 //==============================================================================
@@ -148,8 +161,6 @@ void MultitrackPannerAudioProcessor::changeProgramName (int index, const juce::S
 //==============================================================================
 void MultitrackPannerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    //Additional buses are disabled by default this method enables them all
-    //As of right now Juce is not working correctly with dynamic buses
     enableAllBuses();
 
     //Defining the DSP spec to easily pass useful data to the DSP modules
@@ -201,8 +212,6 @@ void MultitrackPannerAudioProcessor::processBlock (juce::AudioBuffer<float>& buf
     juce::dsp::ProcessContextReplacing<float> context1(block.getSingleChannelBlock(0));
     juce::dsp::ProcessContextReplacing<float> context2(block.getSingleChannelBlock(1));
 
-    gainModule1.process(context1);
-    gainModule2.process(context2);
 
     customPanModuleV2.process(block);
 

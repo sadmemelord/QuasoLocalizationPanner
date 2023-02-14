@@ -63,6 +63,7 @@ void CustomPannerV2::update()
 
         _leftVolumes[bus] = leftValue * boostValue;
         _rightVolumes[bus] = rightValue * boostValue;
+
     }
 
 }

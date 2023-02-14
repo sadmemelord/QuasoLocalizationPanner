@@ -9,15 +9,35 @@
 */
 
 #include "Parameters.h"
+#include "../PluginProcessor.h"
 
-const juce::String gain1ID = "gain1";
-const juce::String gain1Name = "Gain 1";
+juce::StringArray MultitrackPannerAudioProcessor::getPanIDs()
+{
+    juce::StringArray pIDs;
 
-const juce::String pan1ID = "pan1";
-const juce::String pan1Name = "Pan 1";
+    for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
+    {
+        juce::String id = "pan";
+        id << (bus + 1);
 
-const juce::String gain2ID = "gain2";
-const juce::String gain2Name = "Gain 2";
+        pIDs.add(id);
+    }
 
-const juce::String pan2ID = "pan2";
-const juce::String pan2Name = "Pan 2";
+    return pIDs;
+}
+
+juce::StringArray MultitrackPannerAudioProcessor::getPanNames()
+{
+    juce::StringArray pNames;
+
+    for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
+    {
+        juce::String name = "Pan ";
+        name << (bus + 1);
+
+        pNames.add(name);
+    }
+
+    return pNames;
+}
+

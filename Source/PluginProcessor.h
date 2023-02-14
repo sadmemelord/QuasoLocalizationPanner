@@ -9,8 +9,6 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "Parameters/Parameters.h"
-#include "DSP/CustomPanner.h"
 #include "DSP/CustomPannerV2.h"
 
 //==============================================================================
@@ -69,6 +67,8 @@ public:
     juce::AudioProcessorValueTreeState apvts;
 
 private:
+
+    int numberOfInputBuses;
     //In this method called in the AudioProcessor class constructor, every parameter that will be displayed
     //in the GUI is createrd and pushed inside a parameters vector
     juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
@@ -86,6 +86,14 @@ private:
     juce::dsp::Gain<float> gainModule3;
     juce::dsp::Gain<float> gainModule4;
 
+    //IDs and Names for each parameter of the APVTS are stored in String Arrays
+    juce::StringArray panIDs;
+    juce::StringArray panNames;
+
+    //ID and Name are needed to search a specific parameter in the APVTS, these methods defined in the Parameters.cpp file
+    //allow return a string array containing IDs for each parameter
+    juce::StringArray getPanIDs();
+    juce::StringArray getPanNames();
 
     //The CustomPannerV2 class allows the individual panning of an arbitrary number of mono tracks on a stereo output.
     //The only panning method avaiable is "Balanced" panning rule copied from the default juce::dsp::Panner class).

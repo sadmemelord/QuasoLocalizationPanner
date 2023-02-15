@@ -69,7 +69,6 @@ public:
 
 private:
 
-    int numberOfInputBuses;
     //In this method called in the AudioProcessor class constructor, every parameter that will be displayed
     //in the GUI is createrd and pushed inside a parameters vector
     juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
@@ -79,41 +78,43 @@ private:
 
     //This method updates the DSP modules parameters linked with those in the APVTS
     void updateParameters();
-    
-    //Default DSP Gain modules, one for each track 
-    //FUTURE UPDATE: CUSTOM DSP GAIN MODULES FOR MULTIPLE TRACKS
-    juce::dsp::Gain<float> gainModule1;
-    juce::dsp::Gain<float> gainModule2;
-    juce::dsp::Gain<float> gainModule3;
-    juce::dsp::Gain<float> gainModule4;
 
     //IDs and Names for each parameter of the APVTS are stored in String Arrays
     juce::StringArray panIDs;
     juce::StringArray panNames;
     juce::StringArray gainIDs;
     juce::StringArray gainNames;
+    juce::StringArray activeTracksIDs;
+    juce::StringArray activeNames;
 
     //ID and Name are needed to search a specific parameter in the APVTS, these methods defined in the Parameters.cpp file
-    //allow return a string array containing IDs for each parameter
+    //return a string array containing IDs and Names for each parameter
     juce::StringArray getPanIDs();
     juce::StringArray getPanNames();
     juce::StringArray getGainIDs();
     juce::StringArray getGainNames();
+    juce::StringArray getActiveTracksIDs();
+    juce::StringArray getActiveTracksNames();
+
 
     //The CustomPannerV2 class allows the individual panning of an arbitrary number of mono tracks on a stereo output.
     //The only panning method avaiable is "Balanced" panning rule copied from the default juce::dsp::Panner class).
     //New pan values for each track are passed by reference to the setPan() method as a vector of floats, whose size
     //has to match the _busNumber variable defined in the class private section.
-    //FUTURE UPDATE: BYPASS BUTTON FOR EACH TRACK
     CustomPannerV2 customPanModuleV2;
 
+    //The CustomGain class allows to change the gain of an arbitrary number of input mono tracks inside an AudioBlock.
+    //This class is based on the default DSP Gain class and implements the linear smoothing between gain values.
+    //New gain values for each track are passed by reference to the setGai() method as a vector of floats, whose size
+    //has to match the _busNumber variable defined in the class private section.
     CustomGain customGainModule;
 
     //This vector stores the new pan values passed to the customPanModuleV2.setPan() method, its size has to be equal 
     //to the _busNumber private variable in the CustomPannerV2 class
-    //FUTURE UPDATE: CHECK IF THE VECTOR CAN BE INITIALIZED IN THE CONSTRUCTOR WITH A CUSTOM METHOD
-    std::vector<float> newPans = { 0.0f, 0.0f, 0.0f, 0.0f};
-    std::vector<float> newGains = { 0.0f, 0.0f, 0.0f, 0.0f };
+    std::vector<float> newPans;
+    std::vector<float> newGains;
+    std::vector<float> newPeakFilterGains;
+    std::vector<bool>  activeTracks;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MultitrackPannerAudioProcessor)

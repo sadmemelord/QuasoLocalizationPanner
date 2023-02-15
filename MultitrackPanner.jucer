@@ -12,6 +12,10 @@
               file="Source/DSP/CustomPannerV2.cpp"/>
         <FILE id="XAjgc2" name="CustomPannerV2.h" compile="0" resource="0"
               file="Source/DSP/CustomPannerV2.h"/>
+        <FILE id="hqa7uN" name="CustomPeakFilter.cpp" compile="1" resource="0"
+              file="Source/DSP/CustomPeakFilter.cpp"/>
+        <FILE id="D7zi04" name="CustomPeakFilter.h" compile="0" resource="0"
+              file="Source/DSP/CustomPeakFilter.h"/>
       </GROUP>
       <GROUP id="{7F59C412-C274-2AC5-69C8-C786822F55A3}" name="Parameters">
         <FILE id="ya0qE5" name="Parameters.cpp" compile="1" resource="0" file="Source/Parameters/Parameters.cpp"/>

@@ -23,7 +23,7 @@ class CustomPannerV2
 public:
     CustomPannerV2();
 
-    void setPan(std::vector<float>& newPans);
+    void setPan(std::vector<float>& newPans, std::vector<bool>& newActiveTracks);
 
     void prepare(const juce::dsp::ProcessSpec& spec);
 
@@ -45,8 +45,14 @@ public:
 
             for (int bus = 0; bus < _busNumber; ++bus)
             {
-                sampleL += inputBlocks[bus].getSample(0, sample) * _leftVolumes[bus];
-                sampleR += inputBlocks[bus].getSample(0, sample) * _rightVolumes[bus];
+                if (_activeTracks[bus] == false)
+                {
+                    _leftVolumes[bus].setTargetValue(0.0f);
+                    _rightVolumes[bus].setTargetValue(0.0f);
+                }
+
+                sampleL += inputBlocks[bus].getSample(0, sample) * _leftVolumes[bus].getNextValue();
+                sampleR += inputBlocks[bus].getSample(0, sample) * _rightVolumes[bus].getNextValue();
             }
 
             block.setSample(0, sample, sampleL);
@@ -59,8 +65,9 @@ private:
 
 
     std::vector<float> _pans;
-    std::vector<float> _leftVolumes;
-    std::vector<float> _rightVolumes;
+    std::vector<juce::SmoothedValue<float>> _leftVolumes;
+    std::vector<juce::SmoothedValue<float>>_rightVolumes;
+    std::vector<bool> _activeTracks;
     int _busNumber { 4 };
     double _sampleRate = 44100.0;
 

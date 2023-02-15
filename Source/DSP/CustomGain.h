@@ -14,49 +14,15 @@
 class CustomGain
 {
 public:
-    CustomGain()
-    {
-        for (int bus = 0; bus < _busNumber; ++bus)
-        {
-            _gains.push_back(0.0f);
-        }
-    }
+    CustomGain();
 
-    /** Applies a new gain as a decibel value. */
-    void setGainsDecibels(std::vector<float>& newGainsDecibels) noexcept 
-    { 
-        for (int bus = 0; bus < _busNumber; ++bus)
-        {
-            _gains[bus].setTargetValue((juce::Decibels::decibelsToGain<float>(newGainsDecibels[bus])));
-        }
-    }
+    void setGainsDecibels(std::vector<float>& newGainsDecibels) noexcept;
 
-    /** Sets the length of the ramp used for smoothing gain changes. */
-    void setRampDurationSeconds(double newDurationSeconds) noexcept
-    {
-        if (_rampDurationSeconds != newDurationSeconds)
-        {
-            _rampDurationSeconds = newDurationSeconds;
-            reset();
-        }
-    }
+    void setRampDurationSeconds(double newDurationSeconds) noexcept;
 
-    /** Called before processing starts. */
-    void prepare(const juce::dsp::ProcessSpec& spec) noexcept
-    {
-        sampleRate = spec.sampleRate;
-        reset();
-    }
+    void prepare(const juce::dsp::ProcessSpec& spec) noexcept;
 
-    /** Resets the internal state of the gain */
-    void reset() noexcept
-    {
-        for (int bus = 0; bus < _busNumber; ++bus) 
-        {
-           
-            _gains[bus].reset(sampleRate, _rampDurationSeconds);
-        }
-    }
+    void reset() noexcept;
 
     void process(juce::dsp::AudioBlock<float>& block) noexcept
     {
@@ -80,7 +46,8 @@ public:
 
 private:
    std::vector<juce::SmoothedValue<float>> _gains;
-    double sampleRate = 0, _rampDurationSeconds = 0;
-    int _busNumber{ 4 };
+   double _sampleRate = 44100.0;
+   double _rampDurationSeconds = 0.02;
+   int _busNumber{ 4 };
 
 };

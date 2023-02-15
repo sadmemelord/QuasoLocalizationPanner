@@ -18,11 +18,12 @@ CustomPannerV2::CustomPannerV2()
     //update();
 }
 
-void CustomPannerV2::setPan(std::vector<float>& newPans)
+void CustomPannerV2::setPan(std::vector<float>& newPans, std::vector<bool>& newActiveTracks)
 {
     for (int bus = 0; bus < _busNumber; ++bus)
     {
         _pans[bus]= juce::jlimit(static_cast<float> (-1.0), static_cast<float> (1.0), newPans[bus]);
+        _activeTracks[bus] = newActiveTracks[bus];
     }
 
     update();
@@ -43,6 +44,10 @@ void CustomPannerV2::reset()
         _pans.push_back(0.0f);
         _leftVolumes.push_back(0.0f);
         _rightVolumes.push_back(0.0f);
+        _leftVolumes[bus].reset(_sampleRate, 0.02);
+        _rightVolumes[bus].reset(_sampleRate, 0.02);
+
+        _activeTracks.push_back(true);
     }
 }
 
@@ -61,8 +66,8 @@ void CustomPannerV2::update()
         rightValue = juce::jmin(static_cast<float> (0.5), normalisedPan);
         boostValue = static_cast<float> (2.0);
 
-        _leftVolumes[bus] = leftValue * boostValue;
-        _rightVolumes[bus] = rightValue * boostValue;
+        _leftVolumes[bus].setTargetValue(leftValue * boostValue);
+        _rightVolumes[bus].setTargetValue(rightValue * boostValue);
 
     }
 

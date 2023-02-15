@@ -26,15 +26,24 @@ MultitrackPannerAudioProcessor::MultitrackPannerAudioProcessor()
                        apvts(*this, nullptr, "PARAMETERS", createParameterLayout())
 #endif
 {
-    //getting every parameter ID
+    //getting every parameter ID with the related methods defined in the Parameters.cpp file
     panIDs = getPanIDs();
     gainIDs = getGainIDs();
+    activeTracksIDs = getActiveTracksIDs();
 
-    //adding every parameter listener
     for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
     {
+        //adding every parameter listener
         apvts.addParameterListener(panIDs[bus], this);
         apvts.addParameterListener(gainIDs[bus], this);
+        apvts.addParameterListener(activeTracksIDs[bus], this);
+
+        //initializing vectors of parameters passed to the DSP modules
+        newPans.push_back(0.0f);
+        newGains.push_back(0.0f);
+        
+        //initializing every input track as active
+        activeTracks.push_back(true);
     }
 
 }
@@ -46,8 +55,18 @@ MultitrackPannerAudioProcessor::~MultitrackPannerAudioProcessor()
     {
         apvts.removeParameterListener(panIDs[bus], this);
         apvts.removeParameterListener(gainIDs[bus], this);
+        apvts.removeParameterListener(activeTracksIDs[bus], this);
     }
 
+    //cleaaring arrays of strings
+    panIDs.clear();
+    gainIDs.clear();
+    activeTracksIDs.clear();
+
+    //clearing vectors
+    newPans.clear();
+    newGains.clear();
+    activeTracks.clear();
 }
 
 juce::AudioProcessorValueTreeState::ParameterLayout MultitrackPannerAudioProcessor::createParameterLayout()
@@ -65,6 +84,9 @@ juce::AudioProcessorValueTreeState::ParameterLayout MultitrackPannerAudioProcess
     juce::StringArray pPanNames = getPanNames();
     juce::StringArray pGainIDs = getGainIDs();
     juce::StringArray pGainNames = getGainNames();
+    juce::StringArray pActiveIDs = getActiveTracksIDs();
+    juce::StringArray pActiveNames = getActiveTracksNames();
+
 
     for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
     {
@@ -74,6 +96,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout MultitrackPannerAudioProcess
         //FUTURE UPDATE: PEAK FILTER AND MUTE BUTTON FOR EACH TRACK
 
         //Every APVTS parameter is pushed in a vector
+        params.push_back(std::make_unique<juce::AudioParameterBool>(pActiveIDs[bus], pActiveNames[bus], true));
         params.push_back(std::make_unique<juce::AudioParameterFloat>(pPanIDs[bus], pPanNames[bus], -1.0f, 1.0f, 0.0f));
         params.push_back(std::make_unique<juce::AudioParameterFloat>(pGainIDs[bus], pGainNames[bus], -6.0f, 6.0f, 0.0f));
 
@@ -95,12 +118,13 @@ void MultitrackPannerAudioProcessor::updateParameters()
     for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
     {
         newPans[bus] = apvts.getRawParameterValue(panIDs[bus])->load();
-        newGains[bus] = (apvts.getRawParameterValue(gainIDs[bus])->load());
+        newGains[bus] = apvts.getRawParameterValue(gainIDs[bus])->load();
+        activeTracks[bus] = apvts.getRawParameterValue(activeTracksIDs[bus])->load();
     }
 
     //updating DSP modules parameter with those linked in the APVTS
     customGainModule.setGainsDecibels(newGains);
-    customPanModuleV2.setPan(newPans);
+    customPanModuleV2.setPan(newPans, activeTracks);
 
 }
 
@@ -214,9 +238,10 @@ void MultitrackPannerAudioProcessor::processBlock (juce::AudioBuffer<float>& buf
     //Every channel in the buffer contains incoming input data while the stereo output data is written on channel 0 (L) and 1 (R)
     buffer.setSize(totalNumInputChannels, buffer.getNumSamples(), false, false, false);
 
+    //The AudioBlock contains pointer to every channel that contains data, in this case it contains a pointer to every channel
+    //of the AudioBuffer, this prevents the processing methods of the DSP classes from modifying the buffer directly
     juce::dsp::AudioBlock<float> block(buffer);
-    //juce::dsp::ProcessContextReplacing<float> context1(block.getSingleChannelBlock(0));
-    //juce::dsp::ProcessContextReplacing<float> context2(block.getSingleChannelBlock(1));
+
     customGainModule.process(block);
     customPanModuleV2.process(block);
 
@@ -239,7 +264,6 @@ juce::AudioProcessorEditor* MultitrackPannerAudioProcessor::createEditor()
 void MultitrackPannerAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
     //This methods saves the APVTS current parameters when the VST is closed
-
     juce::MemoryOutputStream    stream(destData, false);
     apvts.state.writeToStream(stream);
 }
@@ -247,7 +271,6 @@ void MultitrackPannerAudioProcessor::getStateInformation (juce::MemoryBlock& des
 void MultitrackPannerAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     //This methods restores the last saved APVTS parameters
-
     auto tree = juce::ValueTree::readFromData(data, size_t(sizeInBytes));
 
     if (tree.isValid())

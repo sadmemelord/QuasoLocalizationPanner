@@ -71,7 +71,34 @@ juce::StringArray MultitrackPannerAudioProcessor::getGainNames()
 
     return gNames;
 }
+juce::StringArray MultitrackPannerAudioProcessor::getFilterGainIDs()
+{
+    juce::StringArray fIDs;
 
+    for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
+    {
+        juce::String id = "filter";
+        id << (bus + 1);
+
+        fIDs.add(id);
+    }
+
+    return fIDs;
+}
+juce::StringArray MultitrackPannerAudioProcessor::getFilterGainNames()
+{
+    juce::StringArray fNames;
+
+    for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
+    {
+        juce::String name = "Filter ";
+        name << (bus + 1);
+
+        fNames.add(name);
+    }
+
+    return fNames;
+}
 juce::StringArray MultitrackPannerAudioProcessor::getActiveTracksIDs()
 {
     juce::StringArray tIDs;

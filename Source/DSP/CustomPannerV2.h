@@ -31,6 +31,8 @@ public:
 
     void process(juce::dsp::AudioBlock<float>& block) noexcept
     {
+        //each sample is panned by using its related left and right volume.
+        //Then the whole is stereo output is written on the channel 0 and 1 (L/R)
        std::vector<juce::dsp::AudioBlock<float>> inputBlocks;
 
         for (int bus = 0; bus < _busNumber; ++bus)

@@ -16,7 +16,7 @@ juce::StringArray MultitrackPannerAudioProcessor::getPanIDs()
 {
     juce::StringArray pIDs;
 
-    for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
+    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
     {
         juce::String id = "pan";
         id << (bus + 1);
@@ -31,7 +31,7 @@ juce::StringArray MultitrackPannerAudioProcessor::getPanNames()
 {
     juce::StringArray pNames;
 
-    for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
+    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
     {
         juce::String name = "Pan ";
         name << (bus + 1);
@@ -46,7 +46,7 @@ juce::StringArray MultitrackPannerAudioProcessor::getGainIDs()
 {
     juce::StringArray gIDs;
 
-    for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
+    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
     {
         juce::String id = "gain";
         id << (bus + 1);
@@ -61,7 +61,7 @@ juce::StringArray MultitrackPannerAudioProcessor::getGainNames()
 {
     juce::StringArray gNames;
 
-    for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
+    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
     {
         juce::String name = "Gain ";
         name << (bus + 1);
@@ -75,7 +75,7 @@ juce::StringArray MultitrackPannerAudioProcessor::getFilterGainIDs()
 {
     juce::StringArray fIDs;
 
-    for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
+    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
     {
         juce::String id = "filter";
         id << (bus + 1);
@@ -89,7 +89,7 @@ juce::StringArray MultitrackPannerAudioProcessor::getFilterGainNames()
 {
     juce::StringArray fNames;
 
-    for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
+    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
     {
         juce::String name = "Filter ";
         name << (bus + 1);
@@ -103,7 +103,7 @@ juce::StringArray MultitrackPannerAudioProcessor::getActiveTracksIDs()
 {
     juce::StringArray tIDs;
 
-    for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
+    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
     {
         juce::String id = "track";
         id << (bus + 1);
@@ -118,7 +118,7 @@ juce::StringArray MultitrackPannerAudioProcessor::getActiveTracksNames()
 {
     juce::StringArray tNames;
 
-    for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
+    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
     {
         juce::String name = "Track ";
         name << (bus + 1);

@@ -35,7 +35,9 @@ void CustomPeakFilter::processFilters(juce::dsp::AudioBlock<float>& block)
     //each filter in the vector processes a single channel of the whole audio block passed
     for (int bus = 0; bus < _busNumber; ++bus)
     {
-        juce::dsp::ProcessContextReplacing<float> context(block.getSingleChannelBlock(bus));
+        auto block1 = block.getSingleChannelBlock(bus);
+        juce::dsp::ProcessContextReplacing<float> context(block1);
+
        _peakFilters[bus]->process(context);
     }
 }

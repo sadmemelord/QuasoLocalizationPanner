@@ -32,8 +32,10 @@ MultitrackPannerAudioProcessor::MultitrackPannerAudioProcessor()
     activeTracksIDs = getActiveTracksIDs();
     filterGainIDs = getFilterGainIDs();
 
-    for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
+
+    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
     {
+
         //adding every parameter listener
         apvts.addParameterListener(panIDs[bus], this);
         apvts.addParameterListener(gainIDs[bus], this);
@@ -54,12 +56,12 @@ MultitrackPannerAudioProcessor::MultitrackPannerAudioProcessor()
 MultitrackPannerAudioProcessor::~MultitrackPannerAudioProcessor()
 {
     //removing every parameter listener
-    for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
+    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
     {
-        apvts.removeParameterListener(panIDs[bus], this);
+    /*    apvts.removeParameterListener(panIDs[bus], this);
         apvts.removeParameterListener(gainIDs[bus], this);
         apvts.removeParameterListener(activeTracksIDs[bus], this);
-        apvts.removeParameterListener(filterGainIDs[bus], this);
+        apvts.removeParameterListener(filterGainIDs[bus], this);*/
     }
 
     //cleaaring arrays of strings
@@ -96,7 +98,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout MultitrackPannerAudioProcess
     juce::StringArray pFilterGainNames = getFilterGainNames();
 
 
-    for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
+    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
     {
         //every input track has to be panned in the stereo field L/R and placed at a certain distance
         //Movement in the L/R stereo field is made with a panner.
@@ -125,12 +127,13 @@ void MultitrackPannerAudioProcessor::parameterChanged(const juce::String& parame
 void MultitrackPannerAudioProcessor::updateParameters()
 {
     //loading the APVTS parameters, load() methos is needed because they're Atomic
-    for (int bus = 0; bus < getTotalNumInputChannels(); ++bus)
+    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
     {
-        newPans[bus] = apvts.getRawParameterValue(panIDs[bus])->load();
-        newGains[bus] = apvts.getRawParameterValue(gainIDs[bus])->load();
         activeTracks[bus] = apvts.getRawParameterValue(activeTracksIDs[bus])->load();
+        newGains[bus] = apvts.getRawParameterValue(gainIDs[bus])->load();
         newFilterGains[bus] = apvts.getRawParameterValue(filterGainIDs[bus])->load();
+        newPans[bus] = apvts.getRawParameterValue(panIDs[bus])->load();
+
     }
 
     //updating DSP modules parameter with those linked in the APVTS
@@ -238,10 +241,11 @@ void MultitrackPannerAudioProcessor::releaseResources()
 
 bool MultitrackPannerAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
 {
-    if (layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo() || layouts.getMainInputChannelSet() != juce::AudioChannelSet::mono())
-        return false;
-    else
-        return true;
+    //if (layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo() || layouts.getMainInputChannelSet() != juce::AudioChannelSet::mono())
+    //    return false;
+    //else
+    //    return true;
+    return true;
 }
 
 

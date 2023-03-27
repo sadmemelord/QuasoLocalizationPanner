@@ -11,7 +11,8 @@
 #include <JuceHeader.h>
 #include "DSP/CustomPannerV2.h"
 #include "DSP/CustomGain.h"
-#include"DSP/CustomPeakFilter.h"
+#include "DSP/CustomPeakFilter.h"
+#include "DSP/CustomShelfFilter.h"
 
 //==============================================================================
 /**
@@ -85,8 +86,10 @@ private:
     juce::StringArray panNames;
     juce::StringArray gainIDs;
     juce::StringArray gainNames;
-    juce::StringArray filterGainIDs;
-    juce::StringArray filterGainNames;
+    juce::StringArray peakFilterGainIDs;
+    juce::StringArray peakFilterGainNames;
+    juce::StringArray shelfFilterGainIDs;
+    juce::StringArray shelfFilterGainNames;
     juce::StringArray activeTracksIDs;
     juce::StringArray activeNames;
 
@@ -96,8 +99,10 @@ private:
     juce::StringArray getPanNames();
     juce::StringArray getGainIDs();
     juce::StringArray getGainNames();
-    juce::StringArray getFilterGainIDs();
-    juce::StringArray getFilterGainNames();
+    juce::StringArray getPeakFilterGainIDs();
+    juce::StringArray getPeakFilterGainNames();
+    juce::StringArray getShelfFilterGainIDs();
+    juce::StringArray getShelfFilterGainNames();
     juce::StringArray getActiveTracksIDs();
     juce::StringArray getActiveTracksNames();
 
@@ -115,18 +120,27 @@ private:
     CustomGain customGainModule;
 
     //The CustomPeakFilter class allows the individual filtering of an arbitrary number of mono tracks inside an AudioBlock.
-    //this class provides a number of default juce::dsp PeakFilters up to the input channels (defined as _busNumber),
+    //this class provides a number of default juce::dsp Peak Filters up to the input channels (defined as _busNumber),
     //each filter has fixed Frequency and Quality factor values and a variable gain. New gain values for each filter are
     //passed by reference to the updatePeakFilters method as a vector of floats whose size has to match the _busNumber variable 
     //defined in the class private section. The centre frequency and Q values are set to match the audible feeling of an
     //audio source distance from the listener
     CustomPeakFilter customPeakFilterModule;
 
+    //The CustomShelfFilter class allows the individual filtering of an arbitrary number of mono tracks inside an AudioBlock.
+    //this class provides a number of default juce::dsp  High Shelf Filters up to the input channels (defined as _busNumber),
+    //each filter has fixed Frequency and Quality factor values and a variable gain. New gain values for each filter are
+    //passed by reference to the updateShelfFilters method as a vector of floats whose size has to match the _busNumber variable 
+    //defined in the class private section. The centre frequency and Q values are set to match the audible feeling of an
+    //audio source distance from the listener
+    CustomShelfFilter customShelfFilterModule;
+
     //This vector stores the new pan values passed to the customPanModuleV2.setPan() method, its size has to be equal 
     //to the _busNumber private variable in the CustomPannerV2 class
     std::vector<float> newPans;
     std::vector<float> newGains;
-    std::vector<float> newFilterGains;
+    std::vector<float> newPeakFilterGains;
+    std::vector<float> newShelfFilterGains;
     std::vector<bool>  activeTracks;
 
     //==============================================================================

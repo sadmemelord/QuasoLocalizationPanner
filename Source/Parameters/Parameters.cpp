@@ -12,6 +12,7 @@
 
 //These methods return an array of strings containing ID and Name of every paramater up to the number of input channels.
 //every ID is expressed in the form of "name+number" while every Name is expressed in the form of "Name + number"
+
 juce::StringArray MultitrackPannerAudioProcessor::getPanIDs()
 {
     juce::StringArray pIDs;
@@ -71,33 +72,61 @@ juce::StringArray MultitrackPannerAudioProcessor::getGainNames()
 
     return gNames;
 }
-juce::StringArray MultitrackPannerAudioProcessor::getFilterGainIDs()
+juce::StringArray MultitrackPannerAudioProcessor::getPeakFilterGainIDs()
 {
-    juce::StringArray fIDs;
+    juce::StringArray pfIDs;
 
     for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
     {
-        juce::String id = "filter";
+        juce::String id = "peakfilter";
         id << (bus + 1);
 
-        fIDs.add(id);
+        pfIDs.add(id);
     }
 
-    return fIDs;
+    return pfIDs;
 }
-juce::StringArray MultitrackPannerAudioProcessor::getFilterGainNames()
+juce::StringArray MultitrackPannerAudioProcessor::getPeakFilterGainNames()
 {
-    juce::StringArray fNames;
+    juce::StringArray pfNames;
 
     for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
     {
-        juce::String name = "Filter ";
+        juce::String name = "Peak Filter ";
         name << (bus + 1);
 
-        fNames.add(name);
+        pfNames.add(name);
     }
 
-    return fNames;
+    return pfNames;
+}
+juce::StringArray MultitrackPannerAudioProcessor::getShelfFilterGainIDs()
+{
+    juce::StringArray sfIDs;
+
+    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
+    {
+        juce::String id = "shelffilter";
+        id << (bus + 1);
+
+        sfIDs.add(id);
+    }
+
+    return sfIDs;
+}
+juce::StringArray MultitrackPannerAudioProcessor::getShelfFilterGainNames()
+{
+    juce::StringArray sfNames;
+
+    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
+    {
+        juce::String name = "Shelf Filter ";
+        name << (bus + 1);
+
+        sfNames.add(name);
+    }
+
+    return sfNames;
 }
 juce::StringArray MultitrackPannerAudioProcessor::getActiveTracksIDs()
 {

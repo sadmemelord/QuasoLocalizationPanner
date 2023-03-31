@@ -82,29 +82,20 @@ private:
     void updateParameters();
 
     //IDs and Names for each parameter of the APVTS are stored in String Arrays
-    juce::StringArray panIDs;
-    juce::StringArray panNames;
-    juce::StringArray gainIDs;
-    juce::StringArray gainNames;
-    juce::StringArray peakFilterGainIDs;
-    juce::StringArray peakFilterGainNames;
-    juce::StringArray shelfFilterGainIDs;
-    juce::StringArray shelfFilterGainNames;
     juce::StringArray activeTracksIDs;
-    juce::StringArray activeNames;
+    juce::StringArray distanceIDs;
+    juce::StringArray panIDs;
+
 
     //ID and Name are needed to search a specific parameter in the APVTS, these methods defined in the Parameters.cpp file
     //return a string array containing IDs and Names for each parameter
-    juce::StringArray getPanIDs();
-    juce::StringArray getPanNames();
-    juce::StringArray getGainIDs();
-    juce::StringArray getGainNames();
-    juce::StringArray getPeakFilterGainIDs();
-    juce::StringArray getPeakFilterGainNames();
-    juce::StringArray getShelfFilterGainIDs();
-    juce::StringArray getShelfFilterGainNames();
+
     juce::StringArray getActiveTracksIDs();
     juce::StringArray getActiveTracksNames();
+    juce::StringArray getDistanceIDs();
+    juce::StringArray getDistanceNames();
+    juce::StringArray getPanIDs();
+    juce::StringArray getPanNames();
 
 
     //The CustomPannerV2 class allows the individual panning of an arbitrary number of mono tracks on a stereo output.
@@ -135,13 +126,15 @@ private:
     //audio source distance from the listener
     CustomShelfFilter customShelfFilterModule;
 
-    //This vector stores the new pan values passed to the customPanModuleV2.setPan() method, its size has to be equal 
-    //to the _busNumber private variable in the CustomPannerV2 class
-    std::vector<float> newPans;
+    //This vector stores the new dsp modules values, its size has to be equal 
+    //to the _busNumber private variable in the Custom classes
+    std::vector<bool>  activeTracks;
     std::vector<float> newGains;
     std::vector<float> newPeakFilterGains;
     std::vector<float> newShelfFilterGains;
-    std::vector<bool>  activeTracks;
+    std::vector<float> newPans;
+
+
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MultitrackPannerAudioProcessor)

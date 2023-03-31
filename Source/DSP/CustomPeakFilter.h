@@ -28,7 +28,7 @@ public:
 
 private:
     int _busNumber{ 4 };
-    float _peakFrequency = 2500.0f;
+    float _peakFrequency = 3500.0f;
     float _peakQuality = 2.0f;
     float _peakGain = 0.0f;
     double _sampleRate = 44100.0f;

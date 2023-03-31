@@ -30,7 +30,7 @@ private:
     int _busNumber{ 4 };
     float _shelfFrequency = 2000.0f;
     float _shelfGain = 0.0f;
-    float _shelfQuality = 2.0f;
+    float _shelfQuality = 1.5f;
     double _sampleRate = 44100.0f;
 
     //the vector has to be of unique_ptr because the Filter components aren't copyable but they can be moved

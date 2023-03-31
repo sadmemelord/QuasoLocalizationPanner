@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="EVrGJT" name="MultitrackPanner" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
-              version="1.0.0" companyName="Alberto Roletto">
+              version="1.0.0" companyName="Alberto Roletto" pluginFormats="buildVST3">
   <MAINGROUP id="lF68lI" name="MultitrackPanner">
     <GROUP id="{A467FD8C-85B6-0E85-13E8-F60365BDD59C}" name="Source">
       <GROUP id="{E742206D-0324-FC6C-DB47-52688ACC18F8}" name="DSP">

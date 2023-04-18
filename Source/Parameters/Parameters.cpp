@@ -17,10 +17,10 @@ juce::StringArray MultitrackPannerAudioProcessor::getActiveTracksIDs()
 {
     juce::StringArray tIDs;
 
-    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
+    for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
         juce::String id = "track";
-        id << (bus + 1);
+        id << (channel + 1);
 
         tIDs.add(id);
     }
@@ -33,10 +33,10 @@ juce::StringArray MultitrackPannerAudioProcessor::getActiveTracksNames()
 {
     juce::StringArray tNames;
 
-    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
+    for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
         juce::String name = "Track ";
-        name << (bus + 1);
+        name << (channel + 1);
 
         tNames.add(name);
     }
@@ -49,10 +49,10 @@ juce::StringArray MultitrackPannerAudioProcessor::getDistanceIDs()
 {
     juce::StringArray dIDs;
 
-    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
+    for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
         juce::String id = "distance";
-        id << (bus + 1);
+        id << (channel + 1);
 
         dIDs.add(id);
     }
@@ -64,10 +64,10 @@ juce::StringArray MultitrackPannerAudioProcessor::getDistanceNames()
 {
     juce::StringArray dNames;
 
-    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
+    for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
         juce::String name = "Distance ";
-        name << (bus + 1);
+        name << (channel + 1);
 
         dNames.add(name);
     }
@@ -79,10 +79,10 @@ juce::StringArray MultitrackPannerAudioProcessor::getPanIDs()
 {
     juce::StringArray pIDs;
 
-    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
+    for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
         juce::String id = "pan";
-        id << (bus + 1);
+        id << (channel + 1);
 
         pIDs.add(id);
     }
@@ -94,10 +94,10 @@ juce::StringArray MultitrackPannerAudioProcessor::getPanNames()
 {
     juce::StringArray pNames;
 
-    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
+    for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
         juce::String name = "Pan ";
-        name << (bus + 1);
+        name << (channel + 1);
 
         pNames.add(name);
     }

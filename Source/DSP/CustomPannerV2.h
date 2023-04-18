@@ -35,9 +35,9 @@ public:
         //Then the whole is stereo output is written on the channel 0 and 1 (L/R)
        std::vector<juce::dsp::AudioBlock<float>> inputBlocks;
 
-        for (int bus = 0; bus < _busNumber; ++bus)
+        for (int channel = 0; channel < _busNumber; ++channel)
         {
-            inputBlocks.push_back(block.getSingleChannelBlock(bus));
+            inputBlocks.push_back(block.getSingleChannelBlock(channel));
         }
 
         for (int sample = 0; sample < block.getNumSamples(); ++sample)
@@ -45,18 +45,26 @@ public:
             float sampleL = 0.0f;
             float sampleR = 0.0f;
 
-            for (int bus = 0; bus < _busNumber; ++bus)
+            for (int channel = 0; channel < _busNumber; ++channel)
             {
-                if (_activeTracks[bus] == false)
+                if (_activeTracks[channel] == false)
                 {
-                    _leftVolumes[bus].setTargetValue(0.0f);
-                    _rightVolumes[bus].setTargetValue(0.0f);
+                    inputBlocks[channel].setSample(0, sample, 0);
+                    //_leftVolumes[bus].setTargetValue(0.0f);
+                    //_rightVolumes[bus].setTargetValue(0.0f);
                 }
 
-                sampleL += inputBlocks[bus].getSample(0, sample) * _leftVolumes[bus].getNextValue();
-                sampleR += inputBlocks[bus].getSample(0, sample) * _rightVolumes[bus].getNextValue();
+                sampleL += inputBlocks[channel].getSample(0, sample) * _leftVolumes[channel].getNextValue();
+                sampleR += inputBlocks[channel].getSample(0, sample) * _rightVolumes[channel].getNextValue();
             }
 
+            //Channels 0 and 1 of the buffer are overwritten to be the main L and R output
+            //to be able to make reverb sends of channel 0 and 1 they are copied onto 2 auxiliary channels
+            //at the end of those in input
+            block.setSample(_busNumber, sample, block.getSample(0, sample));
+            block.setSample(_busNumber + 1, sample, block.getSample(1, sample));
+
+            //the main stereo output uses channel 0 and 1 of the audio buffer
             block.setSample(0, sample, sampleL);
             block.setSample(1, sample, sampleR);
         }

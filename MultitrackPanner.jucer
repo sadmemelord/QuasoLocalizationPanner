@@ -16,6 +16,10 @@
               file="Source/DSP/CustomPeakFilter.cpp"/>
         <FILE id="D7zi04" name="CustomPeakFilter.h" compile="0" resource="0"
               file="Source/DSP/CustomPeakFilter.h"/>
+        <FILE id="Kvaeb7" name="CustomReverbSends.cpp" compile="1" resource="0"
+              file="Source/DSP/CustomReverbSends.cpp"/>
+        <FILE id="G0pbOp" name="CustomReverbSends.h" compile="0" resource="0"
+              file="Source/DSP/CustomReverbSends.h"/>
         <FILE id="pO0CGl" name="CustomShelfFilter.cpp" compile="1" resource="0"
               file="Source/DSP/CustomShelfFilter.cpp"/>
         <FILE id="jc04KA" name="CustomShelfFilter.h" compile="0" resource="0"

@@ -29,16 +29,16 @@ public:
         std::vector<juce::dsp::AudioBlock<float>> inputBlocks;
 
 
-        for (int bus = 0; bus < _busNumber; ++bus)
+        for (int channel = 0; channel < _busNumber; ++channel)
         {
-            inputBlocks.push_back(block.getSingleChannelBlock(bus));
+            inputBlocks.push_back(block.getSingleChannelBlock(channel));
         }
 
-        for (int bus = 0; bus < _busNumber; ++bus)
+        for (int channel = 0; channel < _busNumber; ++channel)
         {
             for (int sample = 0; sample < block.getNumSamples(); ++sample)
             {
-                block.setSample(bus, sample, inputBlocks[bus].getSample(0, sample) * _gains[bus].getNextValue());
+                block.setSample(channel, sample, inputBlocks[channel].getSample(0, sample) * _gains[channel].getNextValue());
             }
         }
     }

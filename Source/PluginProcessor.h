@@ -13,6 +13,12 @@
 #include "DSP/CustomGain.h"
 #include "DSP/CustomPeakFilter.h"
 #include "DSP/CustomShelfFilter.h"
+#include "DSP/CustomReverbSends.h"
+
+//Memory for each vector of parameters is allocated in the AudioProcessor constructor,
+//to do so the vector size (which represents the input channels of the VST) is defined
+//as a preprocessor statement
+#define INPUTCHANNELS 4
 
 //==============================================================================
 /**
@@ -86,9 +92,8 @@ private:
     juce::StringArray distanceIDs;
     juce::StringArray panIDs;
 
-
     //ID and Name are needed to search a specific parameter in the APVTS, these methods defined in the Parameters.cpp file
-    //return a string array containing IDs and Names for each parameter
+    //return a string array containing IDs and Names for each parameter visible in the GUI
 
     juce::StringArray getActiveTracksIDs();
     juce::StringArray getActiveTracksNames();
@@ -126,6 +131,9 @@ private:
     //audio source distance from the listener
     CustomShelfFilter customShelfFilterModule;
 
+    //reverb sends module
+    CustomReverbSends customReverbSendsModule;
+
     //This vector stores the new dsp modules values, its size has to be equal 
     //to the _busNumber private variable in the Custom classes
     std::vector<bool>  activeTracks;
@@ -133,6 +141,7 @@ private:
     std::vector<float> newPeakFilterGains;
     std::vector<float> newShelfFilterGains;
     std::vector<float> newPans;
+    std::vector<float> newDistances;
 
 
 

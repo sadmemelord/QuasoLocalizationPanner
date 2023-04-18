@@ -14,7 +14,7 @@
 void CustomShelfFilter::resetFilters()
 {
     //the vector of filters is filled with IIR filters up to the number of input channels defined by _busNumber
-    for (int bus = 0; bus < _busNumber; ++bus)
+    for (int channel = 0; channel < _busNumber; ++channel)
     {
         auto filter = std::make_unique<juce::dsp::IIR::Filter<float>>();
 
@@ -26,32 +26,32 @@ void CustomShelfFilter::prepareFilters(juce::dsp::ProcessSpec& spec)
     //each filter in the vector prepares the DSP spec
     _sampleRate = spec.sampleRate;
 
-    for (int bus = 0; bus < _busNumber; ++bus)
+    for (int channel = 0; channel < _busNumber; ++channel)
     {
-        _shelfFilters[bus]->prepare(spec);
+        _shelfFilters[channel]->prepare(spec);
     }
 }
 void CustomShelfFilter::processFilters(juce::dsp::AudioBlock<float>& block)
 {
     //each filter in the vector processes a single channel of the whole audio block passed
-    for (int bus = 0; bus < _busNumber; ++bus)
+    for (int channel = 0; channel < _busNumber; ++channel)
     {
-        auto block1 = block.getSingleChannelBlock(bus);
+        auto block1 = block.getSingleChannelBlock(channel);
         juce::dsp::ProcessContextReplacing<float> context(block1);
 
-        _shelfFilters[bus]->process(context);
+        _shelfFilters[channel]->process(context);
     }
 }
 
 void CustomShelfFilter::updateShelfFilters(std::vector<float>& newFilterGains)
 {
     //the new gain values for each filter are updated from the APVTS
-    for (int bus = 0; bus < _busNumber; ++bus)
+    for (int channel = 0; channel < _busNumber; ++channel)
     {
         auto shelfCoefficients = juce::dsp::IIR::Coefficients<float>::makeHighShelf(_sampleRate, _shelfFrequency,
-            _shelfQuality, juce::Decibels::decibelsToGain(newFilterGains[bus]));
+            _shelfQuality, juce::Decibels::decibelsToGain(newFilterGains[channel]));
 
-        updateFilterCoefficients(_shelfFilters[bus]->coefficients, shelfCoefficients);
+        updateFilterCoefficients(_shelfFilters[channel]->coefficients, shelfCoefficients);
     }
 }
 

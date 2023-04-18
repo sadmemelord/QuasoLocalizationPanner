@@ -15,28 +15,26 @@ MultitrackPannerAudioProcessor::MultitrackPannerAudioProcessor()
      : AudioProcessor (BusesProperties()
                      #if ! JucePlugin_IsMidiEffect
                       #if ! JucePlugin_IsSynth
-                       .withInput("Input_1", juce::AudioChannelSet::mono(), true)      
-                       .withInput("Input_2", juce::AudioChannelSet::mono(), true)
-                       .withInput("Input_3", juce::AudioChannelSet::mono(), true)
-                       .withInput("Input_4", juce::AudioChannelSet::mono(), true)
+                       .withInput("Input", juce::AudioChannelSet::mono(), true)
                       #endif
-                       .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
+                       .withOutput ("Output", juce::AudioChannelSet::mono(), true)
                      #endif
                        ),
                        apvts(*this, nullptr, "PARAMETERS", createParameterLayout())
 #endif
 {
+
     //getting every parameter ID with the related methods defined in the Parameters.cpp file
     activeTracksIDs = getActiveTracksIDs();
     distanceIDs = getDistanceIDs();
     panIDs = getPanIDs();
 
-    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
+    for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
         //adding every apvts parameter listener
-        apvts.addParameterListener(activeTracksIDs[bus], this);
-        apvts.addParameterListener(distanceIDs[bus], this);
-        apvts.addParameterListener(panIDs[bus], this);
+        apvts.addParameterListener(activeTracksIDs[channel], this);
+        apvts.addParameterListener(distanceIDs[channel], this);
+        apvts.addParameterListener(panIDs[channel], this);
 
         //initializing every input track as active
         activeTracks.push_back(true);
@@ -46,17 +44,19 @@ MultitrackPannerAudioProcessor::MultitrackPannerAudioProcessor()
         newPeakFilterGains.push_back(0.0f);
         newShelfFilterGains.push_back(0.0f);
         newPans.push_back(0.0f);
+
+        newDistances.push_back(0.0f);
     }
 }
 
 MultitrackPannerAudioProcessor::~MultitrackPannerAudioProcessor()
 {
     //removing every parameter listener
-    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
+    for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
-        apvts.removeParameterListener(activeTracksIDs[bus], this);
-        apvts.removeParameterListener(distanceIDs[bus], this);
-        apvts.removeParameterListener(panIDs[bus], this);
+        apvts.removeParameterListener(activeTracksIDs[channel], this);
+        apvts.removeParameterListener(distanceIDs[channel], this);
+        apvts.removeParameterListener(panIDs[channel], this);
     }
 
     //cleaaring arrays of strings
@@ -70,6 +70,7 @@ MultitrackPannerAudioProcessor::~MultitrackPannerAudioProcessor()
     newPeakFilterGains.clear();
     newShelfFilterGains.clear();
     newPans.clear();
+    newDistances.clear();
 }
 
 juce::AudioProcessorValueTreeState::ParameterLayout MultitrackPannerAudioProcessor::createParameterLayout()
@@ -90,16 +91,16 @@ juce::AudioProcessorValueTreeState::ParameterLayout MultitrackPannerAudioProcess
     juce::StringArray pPanIDs = getPanIDs();
     juce::StringArray pPanNames = getPanNames();
 
-    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
+    for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
         //every input track has to be panned in the stereo field L/R and placed at a certain distance
         //Movement in the L/R stereo field is made with a panner.
         //The distance feel is made with a combination of Gain, Filtering and Reverb
 
         //Every APVTS parameter is pushed in a vector
-        params.push_back(std::make_unique<juce::AudioParameterBool>(pActiveIDs[bus], pActiveNames[bus], true));
-        params.push_back(std::make_unique<juce::AudioParameterFloat>(pDistanceIDs[bus], pDistanceNames[bus], 0.0f, 1.0f, 0.75f));
-        params.push_back(std::make_unique<juce::AudioParameterFloat>(pPanIDs[bus], pPanNames[bus], -1.0f, 1.0f, 0.0f));
+        params.push_back(std::make_unique<juce::AudioParameterBool>(pActiveIDs[channel], pActiveNames[channel], true));
+        params.push_back(std::make_unique<juce::AudioParameterFloat>(pDistanceIDs[channel], pDistanceNames[channel], 0.0f, 1.0f, 0.75f));
+        params.push_back(std::make_unique<juce::AudioParameterFloat>(pPanIDs[channel], pPanNames[channel], -1.0f, 1.0f, 0.0f));
     }
 
     return{ params.begin(), params.end() };
@@ -115,16 +116,17 @@ void MultitrackPannerAudioProcessor::parameterChanged(const juce::String& parame
 void MultitrackPannerAudioProcessor::updateParameters()
 {
     //loading the APVTS parameters, load() methos is needed because the values are Atomic
-    for (int bus = 0; bus < getBusesLayout().inputBuses.size(); ++bus)
+    for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
-        activeTracks[bus] = apvts.getRawParameterValue(activeTracksIDs[bus])->load();
+        activeTracks[channel] = apvts.getRawParameterValue(activeTracksIDs[channel])->load();
 
         //Gain and Filter parameters are all mapped based on the Distance value using the jmap method
-        newGains[bus] = juce::jmap(apvts.getRawParameterValue(distanceIDs[bus])->load(),-18.0f,6.0f);
-        newPeakFilterGains[bus] = juce::jmap(apvts.getRawParameterValue(distanceIDs[bus])->load(),-9.0f,3.0f);
-        newShelfFilterGains[bus] = juce::jmap(apvts.getRawParameterValue(distanceIDs[bus])->load(), -4.5f, 1.5f);
+        newGains[channel] = juce::jmap(apvts.getRawParameterValue(distanceIDs[channel])->load(),-18.0f,6.0f);
+        newPeakFilterGains[channel] = juce::jmap(apvts.getRawParameterValue(distanceIDs[channel])->load(),-4.5f, 1.5f);
+        newShelfFilterGains[channel] = juce::jmap(apvts.getRawParameterValue(distanceIDs[channel])->load(), -3.0f, 1.0f);
 
-        newPans[bus] = apvts.getRawParameterValue(panIDs[bus])->load();
+        newPans[channel] = apvts.getRawParameterValue(panIDs[channel])->load();
+        newDistances[channel] = apvts.getRawParameterValue(distanceIDs[channel])->load();
     }
 
     //updating DSP modules parameter with those linked in the APVTS
@@ -132,6 +134,7 @@ void MultitrackPannerAudioProcessor::updateParameters()
     customPeakFilterModule.updatePeakFilters(newPeakFilterGains);
     customShelfFilterModule.updateShelfFilters(newShelfFilterGains);
     customPanModuleV2.setPan(newPans, activeTracks);
+    customReverbSendsModule.setReverbSendsGains(newDistances);
 }
 
 //==============================================================================
@@ -220,6 +223,9 @@ void MultitrackPannerAudioProcessor::prepareToPlay(double sampleRate, int sample
     //In the CustomPannerV2 class' methods sampleRate and numChannels aren't used
     customPanModuleV2.prepare(spec);
 
+    customReverbSendsModule.prepare(spec);
+    customReverbSendsModule.setRampDurationSeconds(0.02f);
+
     updateParameters();
 }
 
@@ -242,13 +248,11 @@ bool MultitrackPannerAudioProcessor::isBusesLayoutSupported (const BusesLayout& 
 void MultitrackPannerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     juce::ScopedNoDenormals noDenormals;
-    auto totalNumInputChannels  = getTotalNumInputChannels();
-    auto totalNumOutputChannels = getTotalNumOutputChannels();
 
     //The default buffer size is set to 2 where the channel 0 and 1 represent the left and right channels.
     //With this method the buffer channel size can be modified to accomodate a larger number of channels.
     //Every channel in the buffer contains incoming input data while the stereo output data is written on channel 0 (L) and 1 (R)
-    buffer.setSize(totalNumInputChannels, buffer.getNumSamples(), false, false, false);
+    buffer.setSize(INPUTCHANNELS + 2, buffer.getNumSamples(), false, false, false);
 
     //The AudioBlock contains pointer to every channel that contains data, in this case it contains a pointer to every channel
     //of the AudioBuffer, this prevents the processing methods of the DSP classes from modifying the buffer directly
@@ -258,6 +262,7 @@ void MultitrackPannerAudioProcessor::processBlock (juce::AudioBuffer<float>& buf
     customPeakFilterModule.processFilters(block);
     customShelfFilterModule.processFilters(block);
     customPanModuleV2.process(block);
+    customReverbSendsModule.process(block);
 
 
 }

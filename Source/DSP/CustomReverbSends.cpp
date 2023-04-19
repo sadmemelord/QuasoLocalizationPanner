@@ -12,14 +12,14 @@
 
 CustomReverbSends::CustomReverbSends()
 {
-    for (int channel = 0; channel < _busNumber; ++channel)
+    for (int channel = 0; channel < _inputChannels; ++channel)
     {
         _reverbSendsGains.push_back(0.0f);
     }
 }
 void CustomReverbSends::setReverbSendsGains(std::vector<float>& distance)
 {
-    for (int channel = 0; channel < _busNumber; ++channel)
+    for (int channel = 0; channel < _inputChannels; ++channel)
     {
         //the Distance parameter is stored as a value between 0 and 1 where 0 represents the furthest 
         //the reverb send level is greater when the source is further and so we need to map the distance
@@ -52,7 +52,7 @@ void CustomReverbSends::prepare(const juce::dsp::ProcessSpec& spec) noexcept
 void CustomReverbSends::reset() noexcept
 {
     //Resets the internal state of the gain
-    for (int channel = 0; channel < _busNumber; ++channel)
+    for (int channel = 0; channel < _inputChannels; ++channel)
     {
         _reverbSendsGains[channel].reset(_sampleRate, _rampDurationSeconds);
     }

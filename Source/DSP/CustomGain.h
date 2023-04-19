@@ -29,12 +29,12 @@ public:
         std::vector<juce::dsp::AudioBlock<float>> inputBlocks;
 
 
-        for (int channel = 0; channel < _busNumber; ++channel)
+        for (int channel = 0; channel < _inputChannels; ++channel)
         {
             inputBlocks.push_back(block.getSingleChannelBlock(channel));
         }
 
-        for (int channel = 0; channel < _busNumber; ++channel)
+        for (int channel = 0; channel < _inputChannels; ++channel)
         {
             for (int sample = 0; sample < block.getNumSamples(); ++sample)
             {
@@ -48,6 +48,6 @@ private:
    std::vector<juce::SmoothedValue<float>> _gains;
    double _sampleRate = 44100.0;
    double _rampDurationSeconds = 0.02;
-   int _busNumber{ 4 };
+   int _inputChannels{ 4 };
 
 };

@@ -10,8 +10,9 @@
 
 #include "../PluginProcessor.h"
 
-//These methods return an array of strings containing ID and Name of every paramater up to the number of input channels.
-//every ID is expressed in the form of "name+number" while every Name is expressed in the form of "Name + number"
+//These methods return an array of strings containing ID and Name of every paramater (up to the number of input channels).
+//every ID is written in the form of "name+number" while every Name is expressed in the form of "Name + number"
+//for example the ID and Name of the Pan parameter of track 2 will be "pan2" and "Pan 2"
 
 juce::StringArray MultitrackPannerAudioProcessor::getActiveTracksIDs()
 {

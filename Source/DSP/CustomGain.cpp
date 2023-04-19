@@ -12,7 +12,8 @@
 
 CustomGain::CustomGain()
 {
-    for (int channel = 0; channel < _busNumber; ++channel)
+    //Allocates the memory of the gains vector
+    for (int channel = 0; channel < _inputChannels; ++channel)
     {
         _gains.push_back(0.0f);
     }
@@ -21,8 +22,7 @@ CustomGain::CustomGain()
 void CustomGain::setGainsDecibels(std::vector<float>& newGainsDecibels) noexcept
 {
     //Applies a new gain as a decibel value
-
-    for (int channel = 0; channel < _busNumber; ++channel)
+    for (int channel = 0; channel < _inputChannels; ++channel)
     {
         _gains[channel].setTargetValue((juce::Decibels::decibelsToGain<float>(newGainsDecibels[channel])));
     }
@@ -47,10 +47,9 @@ void CustomGain::prepare(const juce::dsp::ProcessSpec& spec) noexcept
 
 void CustomGain::reset() noexcept
 {
-    //Resets the internal state of the gain
-    for (int channel = 0; channel < _busNumber; ++channel)
+    //Resets the internal state of the smoothed values
+    for (int channel = 0; channel < _inputChannels; ++channel)
     {
-
         _gains[channel].reset(_sampleRate, _rampDurationSeconds);
     }
 }

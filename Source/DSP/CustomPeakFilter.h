@@ -18,16 +18,12 @@ class CustomPeakFilter
 public:
 
     void resetFilters();
-
     void prepareFilters(juce::dsp::ProcessSpec& spec);
-
     void processFilters(juce::dsp::AudioBlock<float>& block);
-
     void updatePeakFilters(std::vector<float>& newFilterGains);
 
-
 private:
-    int _busNumber{ 4 };
+    int _inputChannels{ 4 };
     float _peakFrequency = 3500.0f;
     float _peakQuality = 2.0f;
     float _peakGain = 0.0f;

@@ -16,18 +16,15 @@ using Coefficients = juce::dsp::IIR::Filter<float>::CoefficientsPtr;
 class CustomShelfFilter
 {
 public:
+
     void resetFilters();
-
     void prepareFilters(juce::dsp::ProcessSpec& spec);
-
     void processFilters(juce::dsp::AudioBlock<float>& block);
-
     void updateShelfFilters(std::vector<float>& newFilterGains);
-
 
 private:
 
-    int _busNumber{ 4 };
+    int _inputChannels{ 4 };
     float _shelfFrequency = 2000.0f;
     float _shelfGain = 0.0f;
     float _shelfQuality = 1.5f;

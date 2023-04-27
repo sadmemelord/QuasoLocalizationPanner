@@ -27,7 +27,7 @@ void CustomReverbSends::setReverbSendsGains(std::vector<float>& distance)
         float _currentDistance = distance[channel];
         float _remappedDistance = 1.0f - _currentDistance;
 
-        _reverbSendsGains[channel].setTargetValue(juce::Decibels::decibelsToGain<float>(juce::jmap(_remappedDistance, -64.0f, -12.0f)));
+        _reverbSendsGains[channel].setTargetValue(juce::Decibels::decibelsToGain<float>(juce::jmap(_remappedDistance, -60.0f, -10.0f)));
       
     }
 }

@@ -35,6 +35,7 @@ MultitrackPannerAudioProcessor::MultitrackPannerAudioProcessor()
         apvts.addParameterListener(activeTracksIDs[channel], this);
         apvts.addParameterListener(distanceIDs[channel], this);
         apvts.addParameterListener(panIDs[channel], this);
+        apvts.addParameterListener("output", this);
 
         //initializing every input track as active
         activeTracks.push_back(true);
@@ -44,6 +45,7 @@ MultitrackPannerAudioProcessor::MultitrackPannerAudioProcessor()
         newPeakFilterGains.push_back(0.0f);
         newShelfFilterGains.push_back(0.0f);
         newPans.push_back(0.0f);
+        newOutputGains.push_back(0.0f);
 
         newDistances.push_back(0.0f);
     }
@@ -57,6 +59,7 @@ MultitrackPannerAudioProcessor::~MultitrackPannerAudioProcessor()
         apvts.removeParameterListener(activeTracksIDs[channel], this);
         apvts.removeParameterListener(distanceIDs[channel], this);
         apvts.removeParameterListener(panIDs[channel], this);
+        apvts.removeParameterListener("output", this);
     }
 
     //cleaaring arrays of strings
@@ -70,6 +73,7 @@ MultitrackPannerAudioProcessor::~MultitrackPannerAudioProcessor()
     newPeakFilterGains.clear();
     newShelfFilterGains.clear();
     newPans.clear();
+    newOutputGains.clear();
     newDistances.clear();
 }
 
@@ -90,6 +94,8 @@ juce::AudioProcessorValueTreeState::ParameterLayout MultitrackPannerAudioProcess
     juce::StringArray pDistanceNames = getDistanceNames();
     juce::StringArray pPanIDs = getPanIDs();
     juce::StringArray pPanNames = getPanNames();
+
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("output", "Output", -64.0f, +12.0f, 0.0f));
 
     for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
@@ -127,6 +133,8 @@ void MultitrackPannerAudioProcessor::updateParameters()
 
         newPans[channel] = apvts.getRawParameterValue(panIDs[channel])->load();
         newDistances[channel] = apvts.getRawParameterValue(distanceIDs[channel])->load();
+
+        newOutputGains[channel] = apvts.getRawParameterValue("output")->load();
     }
 
     //updating DSP modules parameter with those linked in the APVTS
@@ -135,6 +143,7 @@ void MultitrackPannerAudioProcessor::updateParameters()
     customShelfFilterModule.updateShelfFilters(newShelfFilterGains);
     customPanModuleV2.setPan(newPans, activeTracks);
     customReverbSendsModule.setReverbSendsGains(newDistances);
+    customOutputGainModule.setGainsDecibels(newOutputGains);
 }
 
 //==============================================================================
@@ -211,6 +220,8 @@ void MultitrackPannerAudioProcessor::prepareToPlay(double sampleRate, int sample
     //Preparing DSP spec for the custom gain module and setting the ramp time between to values for smoothing
     customGainModule.prepare(spec);
     customGainModule.setRampDurationSeconds(0.02f);
+    customOutputGainModule.prepare(spec);
+    customOutputGainModule.setRampDurationSeconds(0.02f);
 
     //preparing DSP spec for the custom filter module
     //the resetFilters() method fills the vector of unique pointers to filters definied in the class
@@ -261,8 +272,10 @@ void MultitrackPannerAudioProcessor::processBlock (juce::AudioBuffer<float>& buf
     customGainModule.process(block);
     customPeakFilterModule.processFilters(block);
     customShelfFilterModule.processFilters(block);
+    customOutputGainModule.process(block);
     customPanModuleV2.process(block);
     customReverbSendsModule.process(block);
+
 
 
 }

@@ -114,6 +114,7 @@ private:
     //New gain values for each track are passed by reference to the setGain method as a vector of floats, whose size
     //has to match the _busNumber variable defined in the class private section.
     CustomGain customGainModule;
+    CustomGain customOutputGainModule;
 
     //The CustomPeakFilter class allows the individual filtering of an arbitrary number of mono tracks inside an AudioBlock.
     //this class provides a number of default juce::dsp Peak Filters up to the input channels (defined as _busNumber),
@@ -134,6 +135,7 @@ private:
     //reverb sends module
     CustomReverbSends customReverbSendsModule;
 
+
     //This vector stores the new dsp modules values, its size has to be equal 
     //to the _busNumber private variable in the Custom classes
     std::vector<bool>  activeTracks;
@@ -142,6 +144,7 @@ private:
     std::vector<float> newShelfFilterGains;
     std::vector<float> newPans;
     std::vector<float> newDistances;
+    std::vector<float> newOutputGains;
 
 
 

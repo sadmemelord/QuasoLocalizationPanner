@@ -46,7 +46,6 @@ MultitrackPannerAudioProcessor::MultitrackPannerAudioProcessor()
         newShelfFilterGains.push_back(0.0f);
         newPans.push_back(0.0f);
         newOutputGains.push_back(0.0f);
-
         newDistances.push_back(0.0f);
     }
 }
@@ -288,8 +287,8 @@ bool MultitrackPannerAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* MultitrackPannerAudioProcessor::createEditor()
 {
-    //return new MultitrackPannerAudioProcessorEditor (*this);
-    return new juce::GenericAudioProcessorEditor(*this);
+    return new MultitrackPannerAudioProcessorEditor (*this);
+    //return new juce::GenericAudioProcessorEditor(*this);
 }
 
 //==============================================================================

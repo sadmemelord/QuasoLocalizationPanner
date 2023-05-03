@@ -75,6 +75,15 @@ public:
    //inherit also from juce::AudioProcessorValueTreeState::Listener
     juce::AudioProcessorValueTreeState apvts;
 
+    //ID and Name are needed to search a specific parameter in the APVTS, these methods defined in the Parameters.cpp file
+    //return a string array containing IDs and Names for each parameter visible in the GUI
+    juce::StringArray getActiveTracksIDs();
+    juce::StringArray getActiveTracksNames();
+    juce::StringArray getDistanceIDs();
+    juce::StringArray getDistanceNames();
+    juce::StringArray getPanIDs();
+    juce::StringArray getPanNames();
+
 private:
 
     //In this method called in the AudioProcessor class constructor, every parameter that will be displayed
@@ -91,17 +100,6 @@ private:
     juce::StringArray activeTracksIDs;
     juce::StringArray distanceIDs;
     juce::StringArray panIDs;
-
-    //ID and Name are needed to search a specific parameter in the APVTS, these methods defined in the Parameters.cpp file
-    //return a string array containing IDs and Names for each parameter visible in the GUI
-
-    juce::StringArray getActiveTracksIDs();
-    juce::StringArray getActiveTracksNames();
-    juce::StringArray getDistanceIDs();
-    juce::StringArray getDistanceNames();
-    juce::StringArray getPanIDs();
-    juce::StringArray getPanNames();
-
 
     //The CustomPannerV2 class allows the individual panning of an arbitrary number of mono tracks on a stereo output.
     //The only panning method avaiable is "Balanced" panning rule copied from the default juce::dsp::Panner class).
@@ -135,9 +133,8 @@ private:
     //reverb sends module
     CustomReverbSends customReverbSendsModule;
 
-
     //This vector stores the new dsp modules values, its size has to be equal 
-    //to the _busNumber private variable in the Custom classes
+//to the _busNumber private variable in the Custom classes
     std::vector<bool>  activeTracks;
     std::vector<float> newGains;
     std::vector<float> newPeakFilterGains;
@@ -145,6 +142,7 @@ private:
     std::vector<float> newPans;
     std::vector<float> newDistances;
     std::vector<float> newOutputGains;
+
 
 
 

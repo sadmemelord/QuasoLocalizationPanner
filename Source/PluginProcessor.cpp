@@ -94,6 +94,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout MultitrackPannerAudioProcess
     juce::StringArray pPanIDs = getPanIDs();
     juce::StringArray pPanNames = getPanNames();
 
+    //pushing the global Output gain inside the parameters vector
     params.push_back(std::make_unique<juce::AudioParameterFloat>("output", "Output", -64.0f, +12.0f, 0.0f));
 
     for (int channel = 0; channel < INPUTCHANNELS; ++channel)
@@ -261,7 +262,9 @@ void MultitrackPannerAudioProcessor::processBlock (juce::AudioBuffer<float>& buf
 
     //The default buffer size is set to 2 where the channel 0 and 1 represent the left and right channels.
     //With this method the buffer channel size can be modified to accomodate a larger number of channels.
-    //Every channel in the buffer contains incoming input data while the stereo output data is written on channel 0 (L) and 1 (R)
+    //Every channel in the buffer contains incoming input data while the stereo output data is written on channel 0 (L) and 1 (R).
+    //the Buffer size has two more channel than those those in input to internally route the channel 0 and 1 to the channel N and N+1
+    //for the reverb sends
     buffer.setSize(INPUTCHANNELS + 2, buffer.getNumSamples(), false, false, false);
 
     //The AudioBlock contains pointer to every channel that contains data, in this case it contains a pointer to every channel

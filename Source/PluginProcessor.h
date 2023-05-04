@@ -112,10 +112,12 @@ private:
     //New gain values for each track are passed by reference to the setGain method as a vector of floats, whose size
     //has to match the _busNumber variable defined in the class private section.
     CustomGain customGainModule;
+
+    //This module allows to change the global output gain of each channel with a single slider in the GUI
     CustomGain customOutputGainModule;
 
     //The CustomPeakFilter class allows the individual filtering of an arbitrary number of mono tracks inside an AudioBlock.
-    //this class provides a number of default juce::dsp Peak Filters up to the input channels (defined as _busNumber),
+    //this class provides a number of default juce::dsp Peak Filters up to the input channels (defined as _channelNumber),
     //each filter has fixed Frequency and Quality factor values and a variable gain. New gain values for each filter are
     //passed by reference to the updatePeakFilters method as a vector of floats whose size has to match the _busNumber variable 
     //defined in the class private section. The centre frequency and Q values are set to match the audible feeling of an
@@ -123,7 +125,7 @@ private:
     CustomPeakFilter customPeakFilterModule;
 
     //The CustomShelfFilter class allows the individual filtering of an arbitrary number of mono tracks inside an AudioBlock.
-    //this class provides a number of default juce::dsp  High Shelf Filters up to the input channels (defined as _busNumber),
+    //this class provides a number of default juce::dsp  High Shelf Filters up to the input channels (defined as _channelNumber),
     //each filter has fixed Frequency and Quality factor values and a variable gain. New gain values for each filter are
     //passed by reference to the updateShelfFilters method as a vector of floats whose size has to match the _busNumber variable 
     //defined in the class private section. The centre frequency and Q values are set to match the audible feeling of an
@@ -134,7 +136,7 @@ private:
     CustomReverbSends customReverbSendsModule;
 
     //This vector stores the new dsp modules values, its size has to be equal 
-//to the _busNumber private variable in the Custom classes
+    //to the _channelNumber private variable in the Custom classes
     std::vector<bool>  activeTracks;
     std::vector<float> newGains;
     std::vector<float> newPeakFilterGains;

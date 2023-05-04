@@ -89,8 +89,8 @@ void PanningWindow::setDraggableComponentProperties()
 {
     for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
-        //addAndMakeVisible(_draggableComponents[channel]);
-        addChildComponent(_draggableComponents[channel]);
+        addAndMakeVisible(_draggableComponents[channel]);
+        //addChildComponent(_draggableComponents[channel]);
 
         juce::String _dragCompLabel = "Track ";
         _dragCompLabel << channel + 1;
@@ -102,7 +102,6 @@ void PanningWindow::setDraggableComponentProperties()
             random.nextInt(256),
             random.nextInt(256));
         _draggableComponents[channel]->setDraggableComponentColour(colour);
-
         _draggableComponents[channel]->addComponentListener(this);
 
     }

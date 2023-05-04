@@ -16,7 +16,7 @@ class DraggableComponent : public juce::Component
 {
 public:
     //==============================================================================
-    DraggableComponent();
+    DraggableComponent(juce::RangedAudioParameter* rapX, juce::RangedAudioParameter* rapY );
     ~DraggableComponent() override;
 
     //==============================================================================
@@ -33,11 +33,17 @@ public:
     void setDraggableComponentColour(juce::Colour newColour);
     juce::Colour getDraggableComponentColour();
 
+    float _compX, _compY;
+
 private:
     //==============================================================================
     // Your private member variables go here...
-    //juce::RangedAudioParameter& _rap;
-    //juce::ParameterAttachment _attach;
+    juce::RangedAudioParameter &_rapX;
+    juce::RangedAudioParameter &_rapY;
+    juce::ParameterAttachment _attachX;
+    juce::ParameterAttachment _attachY;
+
+
 
     juce::ComponentDragger _dragger;
     juce::ComponentBoundsConstrainer _constrainer;

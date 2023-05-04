@@ -11,10 +11,15 @@
 
 //==============================================================================
 MultitrackPannerAudioProcessorEditor::MultitrackPannerAudioProcessorEditor (MultitrackPannerAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p)
+    : AudioProcessorEditor (&p), audioProcessor (p),
+    _dragComp1(p.apvts.getParameter("pan1"), p.apvts.getParameter("distance1")),
+    _dragComp2(p.apvts.getParameter("pan2"), p.apvts.getParameter("distance2")),
+    _dragComp3(p.apvts.getParameter("pan3"), p.apvts.getParameter("distance3")),
+    _dragComp4(p.apvts.getParameter("pan4"), p.apvts.getParameter("distance4")),
+    panningWindow(&_dragComponents)
+
 {
     attachComponents();
-    
 
     setPanningWindowProperties();
     setTextButtonProperties();
@@ -34,7 +39,6 @@ MultitrackPannerAudioProcessorEditor::~MultitrackPannerAudioProcessorEditor()
     {
         textButtons[channel]->setLookAndFeel(nullptr);
     }
-
     textButtons.clear();
     textButtons.shrink_to_fit();
 }

@@ -10,8 +10,17 @@
 
 #include "DraggableComponent.h"
 
-DraggableComponent::DraggableComponent()
+DraggableComponent::DraggableComponent(juce::RangedAudioParameter* rapX, juce::RangedAudioParameter* rapY) :
+    _rapX(*rapX),
+    _rapY(*rapY),
+    _attachX(_rapX, [this](float) {repaint(); }),
+    _attachY(_rapY, [this](float) {repaint(); }),
+    _compX(juce::jmap(rapX->getValue(),-300.f,300.f)),
+    _compY(juce::jmap(rapY->getValue(), 0.f, 200.f))
 {
+    _attachX.sendInitialUpdate();
+    _attachY.sendInitialUpdate();
+
     addAndMakeVisible(_labelName);
     _labelName.setColour(juce::Label::textColourId, juce::Colours::black);
     _labelFont.setBold(true);
@@ -42,31 +51,34 @@ void DraggableComponent::resized()
 void DraggableComponent::mouseDown(const juce::MouseEvent& event)
 {
     _dragger.startDraggingComponent(this, event);
+    _attachX.beginGesture();
+    _attachY.beginGesture();
 }
 void DraggableComponent::mouseUp(const juce::MouseEvent& event)
 {
     _labelName.setVisible(true);
+    _attachX.endGesture();
+    _attachY.endGesture();
 }
 void DraggableComponent::mouseDrag(const juce::MouseEvent& event)
 {
     _dragger.dragComponent(this, event, &_constrainer);
     _labelName.setVisible(false);
 
-    //_attach.setValueAsPartOfGesture(_rap.convertFrom0to1(getX()));
+    _attachX.setValueAsPartOfGesture((double)(_compX / 300.f));
+    _attachY.setValueAsPartOfGesture((double)(_compY / 200.f));
 }
 
 void DraggableComponent::mouseDoubleClick(const juce::MouseEvent& event)
 {
     centreWithSize(50, 50);
     setCentrePosition(getParentWidth() / 2, 3 * getParentHeight() / 4 - this->getHeight() / 4);
+    _attachX.setValueAsPartOfGesture(_rapX.convertFrom0to1(_rapX.getDefaultValue()));
+    _attachY.setValueAsPartOfGesture(_rapY.convertFrom0to1(_rapY.getDefaultValue()));
 }
 void DraggableComponent::mouseWheelMove(const juce::MouseEvent& event,
                                         const juce::MouseWheelDetails& wheel)
 {
-    auto& random = juce::Random::getSystemRandom();
-    _colour.fromRGB(random.nextInt(256),
-                    random.nextInt(256),
-                    random.nextInt(256));
 
 }
 

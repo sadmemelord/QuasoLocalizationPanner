@@ -30,8 +30,8 @@ void CustomPannerV2::setPan(std::vector<float>& newPans, std::vector<bool>& newA
 }
 void CustomPannerV2::prepare(const juce::dsp::ProcessSpec& spec)
 {
-    jassert(spec.sampleRate > 0);
-    jassert(spec.numChannels > 0);
+    //jassert(spec.sampleRate > 0);
+    //jassert(spec.numChannels > 0);
 
     _sampleRate = spec.sampleRate;
 

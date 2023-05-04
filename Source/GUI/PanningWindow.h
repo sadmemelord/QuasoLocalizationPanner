@@ -19,7 +19,7 @@ class PanningWindow : public juce::Component, juce::ComponentListener
 {
 public:
     //==============================================================================
-    PanningWindow();
+    PanningWindow(std::vector<DraggableComponent*>  *draggableComponents);
     ~PanningWindow() override;
 
     //==============================================================================
@@ -34,14 +34,13 @@ public:
     void setShadowProperties(juce::Graphics& g);
 
 private:
+
+    std::vector<DraggableComponent*> &_draggableComponents;
+
     //==============================================================================
     // Your private member variables go here...
 
-    DraggableComponent _dragComp1;
-    DraggableComponent _dragComp2;
-    DraggableComponent _dragComp3;
-    DraggableComponent _dragComp4;
 
-    std::vector<DraggableComponent*> _draggableComponents{ &_dragComp1, &_dragComp2, &_dragComp3, &_dragComp4 };
+
     
 };

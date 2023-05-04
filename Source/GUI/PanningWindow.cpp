@@ -9,13 +9,19 @@
 */
 
 #include "PanningWindow.h"
-PanningWindow::PanningWindow()
+PanningWindow::PanningWindow(std::vector<DraggableComponent*> *draggableComponents):
+    _draggableComponents(*draggableComponents)
 {
     setDraggableComponentProperties();
 }
 
 PanningWindow::~PanningWindow()
 {
+    for (int channel = 0; channel < INPUTCHANNELS; ++channel)
+    {
+        _draggableComponents[channel]->removeComponentListener(this);
+    }
+
     _draggableComponents.clear();
     _draggableComponents.shrink_to_fit();
 }
@@ -42,7 +48,8 @@ void PanningWindow::componentMovedOrResized(Component& component, bool wasMoved,
             
             componentPan = component.getX() - this->getWidth() / 2 + component.getWidth() / 2;
             componentDistance = component.getY();
-
+            _draggableComponents[channel]->_compX = componentPan;
+            _draggableComponents[channel]->_compY = componentDistance;
             DBG(component.getName() << " " << "X: " << componentPan << " " << "Y: " << componentDistance);
         }
     }
@@ -78,9 +85,11 @@ void PanningWindow::resized()
     // This is called when the MainComponent is resized.
     // If you add any child components, this is where you should
     // update their positions.
+    float dragCompSize = 50.f;
+
     for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
-        _draggableComponents[channel]->centreWithSize(50, 50);
-        _draggableComponents[channel]->setCentrePosition(getWidth() / 2, 3 * getHeight() / 4 - _draggableComponents[channel]->getHeight() / 4);
+        _draggableComponents[channel]->setBounds(_draggableComponents[channel]->_compX + getWidth() / 2 - dragCompSize / 2,
+                                                 _draggableComponents[channel]->_compY, dragCompSize, dragCompSize);
     }
 }

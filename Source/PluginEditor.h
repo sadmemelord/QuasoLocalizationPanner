@@ -41,6 +41,12 @@ private:
     // access the processor object that created it.
     MultitrackPannerAudioProcessor& audioProcessor;
 
+    DraggableComponent _dragComp1;
+    DraggableComponent _dragComp2;
+    DraggableComponent _dragComp3;
+    DraggableComponent _dragComp4;
+    std::vector<DraggableComponent*> _dragComponents = { &_dragComp1, &_dragComp2, &_dragComp3, &_dragComp4 };
+
     PanningWindow panningWindow;
 
     ButtonLAF buttonLookAndFeel;

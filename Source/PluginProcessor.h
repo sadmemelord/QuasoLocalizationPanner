@@ -18,7 +18,7 @@
 //Memory for each vector of parameters is allocated in the AudioProcessor constructor,
 //to do so the vector size (which represents the input channels of the VST) is defined
 //as a preprocessor statement
-#define INPUTCHANNELS 4
+#define INPUTCHANNELS 16
 
 //==============================================================================
 /**

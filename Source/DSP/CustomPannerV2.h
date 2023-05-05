@@ -76,7 +76,7 @@ private:
     std::vector<juce::SmoothedValue<float>> _leftVolumes;
     std::vector<juce::SmoothedValue<float>>_rightVolumes;
     std::vector<bool> _activeTracks;
-    int _inputChannels{ 4 };
+    int _inputChannels{ 16 };
     double _sampleRate = 44100.0;
 
     void update();

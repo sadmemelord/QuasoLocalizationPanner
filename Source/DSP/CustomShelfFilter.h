@@ -24,7 +24,7 @@ public:
 
 private:
 
-    int _inputChannels{ 4 };
+    int _inputChannels{ 16 };
     float _shelfFrequency = 2000.0f;
     float _shelfGain = 0.0f;
     float _shelfQuality = 1.5f;

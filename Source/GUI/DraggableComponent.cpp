@@ -22,8 +22,7 @@ DraggableComponent::DraggableComponent(juce::RangedAudioParameter* rapX, juce::R
     //Setting label properties
     addAndMakeVisible(_labelName);
     _labelName.setColour(juce::Label::textColourId, juce::Colours::black);
-    _labelFont.setBold(true);
-    _labelName.setFont(_labelFont);
+
     _constrainer.setMinimumOnscreenAmounts(50, 50, 50, 50);
 
     //This method updates the UI with the current APVTS parameters
@@ -47,9 +46,8 @@ void DraggableComponent::paint(juce::Graphics& g)
 void DraggableComponent::resized()
 {
     //The label is centered inside the Draggable Component
-    float labelX = 2.5;
-    float labelHeight = 25;
-    _labelName.setBounds(labelX, getHeight() / 2 - labelHeight / 2, getWidth() - 2 * labelX, labelHeight);
+    float labelHeight = 20;
+    _labelName.setBounds(0, getHeight() / 2 - labelHeight / 2, getWidth(), labelHeight);
 }
 
 void DraggableComponent::mouseDown(const juce::MouseEvent& event)
@@ -92,6 +90,12 @@ void DraggableComponent::mouseDoubleClick(const juce::MouseEvent& event)
 
 void DraggableComponent::setDragableComponentLabel(juce::String& newName)
 {
+    juce::Font labelFont;
+
+    labelFont.setHorizontalScale(0.9f);
+    labelFont.setHeight(15.5f);
+    labelFont.setBold(true);
+    _labelName.setFont(labelFont);
     _labelName.setText(newName, juce::dontSendNotification);
 }
 

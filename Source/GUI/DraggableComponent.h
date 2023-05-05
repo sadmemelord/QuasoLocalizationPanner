@@ -54,7 +54,6 @@ private:
 
     //Each DraggableComponent comes with a label associated to the track channel it represents and a colour
     juce::Label _labelName;
-    juce::Font _labelFont;
     juce::Colour _colour;
 
 };

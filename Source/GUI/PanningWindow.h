@@ -13,7 +13,7 @@
 #include "../PluginProcessor.h"
 #include "DraggableComponent.h"
 #include "Data/CustomColors.h"
-#define INPUTCHANNELS 4
+//#define INPUTCHANNELS 4
 
 class PanningWindow : public juce::Component, juce::ComponentListener
 {

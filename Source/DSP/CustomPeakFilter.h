@@ -23,7 +23,7 @@ public:
     void updatePeakFilters(std::vector<float>& newFilterGains);
 
 private:
-    int _inputChannels{ 4 };
+    int _inputChannels{ 16 };
     float _peakFrequency = 3500.0f;
     float _peakQuality = 2.0f;
     float _peakGain = 0.0f;

@@ -48,6 +48,6 @@ private:
    std::vector<juce::SmoothedValue<float>> _gains;
    double _sampleRate = 44100.0;
    double _rampDurationSeconds = 0.02;
-   int _inputChannels{ 4 };
+   int _inputChannels{ 16 };
 
 };

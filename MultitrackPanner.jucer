@@ -27,10 +27,6 @@
           <FILE id="G4tGTV" name="VerticalSliderLAF.h" compile="0" resource="0"
                 file="Source/GUI/LAF/VerticalSliderLAF.h"/>
         </GROUP>
-        <FILE id="qnf0Lj" name="ComponentAttachment.cpp" compile="1" resource="0"
-              file="Source/GUI/ComponentAttachment.cpp"/>
-        <FILE id="p0q9If" name="ComponentAttachment.h" compile="0" resource="0"
-              file="Source/GUI/ComponentAttachment.h"/>
         <FILE id="lHqV5a" name="DraggableComponent.cpp" compile="1" resource="0"
               file="Source/GUI/DraggableComponent.cpp"/>
         <FILE id="z3PWEw" name="DraggableComponent.h" compile="0" resource="0"

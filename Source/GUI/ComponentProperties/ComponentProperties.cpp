@@ -12,16 +12,15 @@
 
 void MultitrackPannerAudioProcessorEditor::attachComponents()
 {
-    //attaching buttons to the activeTracks parameter in the APVTS
+    //Buttons are attached to the APVTS' Active Track parameter
     for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
         juce::StringArray activeIds = audioProcessor.getActiveTracksIDs();
         textButtonsAttach.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.apvts, activeIds[channel], *textButtons[channel]));
     }
 
-    //attaching master volume to the Output parameter in the APVTS
+    //The output volume slider is attached to the output parameter with the default Slider Attachment class
     masterVolumeAttach = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "output", masterVolumeSlider);
-
 }
 
 void MultitrackPannerAudioProcessorEditor::setTextButtonProperties()
@@ -29,7 +28,6 @@ void MultitrackPannerAudioProcessorEditor::setTextButtonProperties()
     for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
         addAndMakeVisible(textButtons[channel]);
-
         textButtons[channel]->setToggleable(true);
 
         juce::String textButtonName = "Track ";
@@ -38,13 +36,11 @@ void MultitrackPannerAudioProcessorEditor::setTextButtonProperties()
         textButtons[channel]->setName(textButtonName);
         textButtons[channel]->setLookAndFeel(&buttonLookAndFeel);
 
+        //Each button color has to match the related Draggable Component color
         auto newButtonColour = panningWindow.getChildColour(channel);
-
         textButtons[channel]->setColour(juce::TextButton::ColourIds::buttonColourId, newButtonColour);
         textButtons[channel]->addListener(this);
     }
-
-
 }
 
 void MultitrackPannerAudioProcessorEditor::setSliderProperties()
@@ -63,8 +59,6 @@ void MultitrackPannerAudioProcessorEditor::setSliderProperties()
 
     addAndMakeVisible(masterVolumeLabel);
     masterVolumeLabel.setText("Output", juce::dontSendNotification);
-
-
 }
 
 void  MultitrackPannerAudioProcessorEditor::setGroupProperties()
@@ -80,18 +74,16 @@ void MultitrackPannerAudioProcessorEditor::setPanningWindowProperties()
 
     for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
+        //If the button is toggled off its related Draggable Component is not visible
         panningWindow.getChildComponent(channel)->setVisible(textButtons[channel]->getToggleState());
     }
-
-
 }
+
 void PanningWindow::setDraggableComponentProperties()
 {
     for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
         addAndMakeVisible(_draggableComponents[channel]);
-        //addChildComponent(_draggableComponents[channel]);
-
         juce::String _dragCompLabel = "Track ";
         _dragCompLabel << channel + 1;
         _draggableComponents[channel]->setDragableComponentLabel(_dragCompLabel);
@@ -109,6 +101,8 @@ void PanningWindow::setDraggableComponentProperties()
 
 void PanningWindow::setShadowProperties(juce::Graphics& g)
 {
+    //Each Draggable Component when dragged projects a shadow on the Panning Windows which is
+    //removed when the component is released
     juce::Point<int> _shadowOffset(3, 3);
     auto _shadow = juce::DropShadow(juce::Colours::black, 10.0f, _shadowOffset);
     for (int channel = 0; channel < INPUTCHANNELS; ++channel)
@@ -123,9 +117,7 @@ void PanningWindow::setShadowProperties(juce::Graphics& g)
             _shadow.radius = 0.0f;
             _shadow.drawForRectangle(g, _draggableComponents[channel]->getBounds().reduced(50));
         }
-
         juce::DropShadower _shadower(_shadow);
         _shadower.setOwner(_draggableComponents[channel]);
     }
-
 }

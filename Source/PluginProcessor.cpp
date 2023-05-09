@@ -313,6 +313,19 @@ void MultitrackPannerAudioProcessor::setStateInformation (const void* data, int 
     }
 }
 
+void MultitrackPannerAudioProcessor::saveComponentLabelText(DraggableComponent& dragComp)
+{
+    auto labelText = dragComp.getDragableComponentLabel()->getText();
+    auto label = apvts.state.getOrCreateChildWithName(dragComp.getName(), nullptr);
+    label.setProperty(dragComp.getName(), labelText, nullptr);
+}
+
+juce::String MultitrackPannerAudioProcessor::loadComponentLabelText(DraggableComponent& dragComp)
+{
+
+    auto label = apvts.state.getOrCreateChildWithName(dragComp.getName(), nullptr);
+    return label.getProperty(dragComp.getName(), dragComp.getName());
+}
 //==============================================================================
 // This creates new instances of the plugin..
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()

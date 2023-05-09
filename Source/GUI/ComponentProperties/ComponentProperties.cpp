@@ -32,7 +32,7 @@ void MultitrackPannerAudioProcessorEditor::setTextButtonProperties()
 
         juce::String textButtonName = "Track ";
         textButtonName << channel + 1;
-        textButtons[channel]->setButtonText(textButtonName);
+        textButtons[channel]->setButtonText(_dragComponents[channel]->getDragableComponentLabel()->getText());
         textButtons[channel]->setName(textButtonName);
         textButtons[channel]->setLookAndFeel(&buttonLookAndFeel);
 
@@ -95,7 +95,6 @@ void PanningWindow::setDraggableComponentProperties()
             random.nextInt(256));
         _draggableComponents[channel]->setDraggableComponentColour(colour);
         _draggableComponents[channel]->addComponentListener(this);
-
     }
 }
 

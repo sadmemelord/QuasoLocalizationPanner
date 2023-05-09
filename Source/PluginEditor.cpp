@@ -40,9 +40,15 @@ MultitrackPannerAudioProcessorEditor::MultitrackPannerAudioProcessorEditor (Mult
     attachComponents();
 
     setPanningWindowProperties();
+    for (int channel = 0; channel < INPUTCHANNELS; ++channel)
+    {
+        _dragComponents[channel]->setDragableComponentLabel(audioProcessor.loadComponentLabelText(*_dragComponents[channel]));
+    }
     setTextButtonProperties();
     setSliderProperties();
     setGroupProperties();
+
+
 
     logoImage = juce::ImageCache::getFromMemory(BinaryData::QPP_logo_black_png, BinaryData::QPP_logo_black_pngSize);
 
@@ -84,8 +90,14 @@ void MultitrackPannerAudioProcessorEditor::labelTextChanged(juce::Label* labelTh
     for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
         if (parent->getName() == textButtons[channel]->getName())
-            textButtons[channel]->setButtonText(labelThatHasChanged->getText());
+        {
+            auto labelText = labelThatHasChanged->getText();
+            textButtons[channel]->setButtonText(labelText);
+            audioProcessor.saveComponentLabelText(*_dragComponents[channel]);
+        }
     }
+
+
 }
 //==============================================================================
 void MultitrackPannerAudioProcessorEditor::paint (juce::Graphics& g)

@@ -14,6 +14,7 @@
 #include "DSP/CustomPeakFilter.h"
 #include "DSP/CustomShelfFilter.h"
 #include "DSP/CustomReverbSends.h"
+#include "GUI/DraggableComponent.h"
 
 //Memory for each vector of parameters is allocated in the AudioProcessor constructor,
 //to do so the vector size (which represents the input channels of the VST) is defined
@@ -65,6 +66,11 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+
+    //==============================================================================
+    void saveComponentLabelText(DraggableComponent& dragComp);
+    juce::String loadComponentLabelText(DraggableComponent& dragComp);
+
 
     //==============================================================================
 

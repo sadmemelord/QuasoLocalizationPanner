@@ -31,29 +31,15 @@ MultitrackPannerAudioProcessorEditor::MultitrackPannerAudioProcessorEditor (Mult
     panningWindow(&_dragComponents)
 
 {
-
-    for (int channel = 0; channel < INPUTCHANNELS; ++channel)
-    {
-        auto label = _dragComponents[channel]->getDragableComponentLabel();
-        label->addListener(this);
-    }
     attachComponents();
-
     setPanningWindowProperties();
-    for (int channel = 0; channel < INPUTCHANNELS; ++channel)
-    {
-        _dragComponents[channel]->setDragableComponentLabel(audioProcessor.loadComponentLabelText(*_dragComponents[channel]));
-    }
     setTextButtonProperties();
     setSliderProperties();
     setGroupProperties();
 
-
-
     logoImage = juce::ImageCache::getFromMemory(BinaryData::QPP_logo_black_png, BinaryData::QPP_logo_black_pngSize);
 
     setSize(800, 500);
-
     juce::AudioProcessorEditor::setResizable(false, false);
 }
 
@@ -105,6 +91,7 @@ void MultitrackPannerAudioProcessorEditor::paint (juce::Graphics& g)
   
     g.setGradientFill(juce::ColourGradient::vertical(CustomColors::darkerGrey, getHeight(),
         CustomColors::darkerGrey.brighter(0.05f), getHeight() * 0.5f));
+
     g.fillRect(getLocalBounds());
 
     g.drawImageWithin(logoImage, 100, 10, 600, 60, juce::RectanglePlacement::fillDestination, false);
@@ -140,4 +127,3 @@ void MultitrackPannerAudioProcessorEditor::resized()
     masterVolumeSlider.setBounds(panningWindow.getRight(), 1.5 * panningWindowY, getRight() - panningWindow.getRight(), panningWindow.getBottom() - 1.5 * panningWindowY);
     masterVolumeLabel.setBounds(masterVolumeSlider.getX() + 10, masterVolumeSlider.getY() - 30, masterVolumeSlider.getWidth(), 30);
 }
-

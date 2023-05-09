@@ -11,6 +11,8 @@
                 file="Source/GUI/ComponentProperties/ComponentProperties.cpp"/>
         </GROUP>
         <GROUP id="{3A215432-BD9E-3F91-E53C-495824972C0E}" name="Data">
+          <FILE id="pEnASY" name="CustomColors.cpp" compile="1" resource="0"
+                file="Source/GUI/Data/CustomColors.cpp"/>
           <FILE id="TqK6vT" name="CustomColors.h" compile="0" resource="0" file="Source/GUI/Data/CustomColors.h"/>
         </GROUP>
         <GROUP id="{B13A8A02-6B6D-FD12-C93D-48796656E4E0}" name="Images">

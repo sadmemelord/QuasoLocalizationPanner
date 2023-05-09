@@ -27,19 +27,23 @@ void MultitrackPannerAudioProcessorEditor::setTextButtonProperties()
 {
     for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
+        //Each text buttons is linked to a draggable component, they share the same name, label and colour
+        auto dragCompLabel = _dragComponents[channel]->getDragableComponentLabel();
+        auto buttonText = dragCompLabel->getText();
+        auto buttonName = _dragComponents[channel]->getName();
+        auto buttonColour = _dragComponents[channel]->getDraggableComponentColour();
+
         addAndMakeVisible(textButtons[channel]);
         textButtons[channel]->setToggleable(true);
-
-        juce::String textButtonName = "Track ";
-        textButtonName << channel + 1;
-        textButtons[channel]->setButtonText(_dragComponents[channel]->getDragableComponentLabel()->getText());
-        textButtons[channel]->setName(textButtonName);
+        textButtons[channel]->setButtonText(buttonText);
+        textButtons[channel]->setName(buttonName);
         textButtons[channel]->setLookAndFeel(&buttonLookAndFeel);
+        textButtons[channel]->setColour(juce::TextButton::ColourIds::buttonColourId, buttonColour);
 
-        //Each button color has to match the related Draggable Component color
-        auto newButtonColour = panningWindow.getChildColour(channel);
-        textButtons[channel]->setColour(juce::TextButton::ColourIds::buttonColourId, newButtonColour);
+        //The editor listens to the button to set the visibility of the draggable component
+        //The editor listens to the draggable component's label changes to update the button's text
         textButtons[channel]->addListener(this);
+        dragCompLabel->addListener(this);
     }
 }
 
@@ -47,7 +51,7 @@ void MultitrackPannerAudioProcessorEditor::setSliderProperties()
 {
     addAndMakeVisible(masterVolumeSlider);
     masterVolumeSlider.setSliderStyle(juce::Slider::LinearVertical);
-    masterVolumeSlider.setRange(-64.0f, +12.0f, 0.1f);
+    masterVolumeSlider.setRange(-64.0f, +12.0f);
     masterVolumeSlider.setDoubleClickReturnValue(true, 0.0f);
     masterVolumeSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 70, 35);
     masterVolumeSlider.setTextValueSuffix(" dB");
@@ -76,6 +80,10 @@ void MultitrackPannerAudioProcessorEditor::setPanningWindowProperties()
     {
         //If the button is toggled off its related Draggable Component is not visible
         panningWindow.getChildComponent(channel)->setVisible(textButtons[channel]->getToggleState());
+
+        //Restoring the draggable component's label text from the APVTS
+       _dragComponents[channel]->setDragableComponentLabel(audioProcessor.loadComponentLabelText(*_dragComponents[channel]));
+
     }
 }
 
@@ -83,17 +91,15 @@ void PanningWindow::setDraggableComponentProperties()
 {
     for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
-        addAndMakeVisible(_draggableComponents[channel]);
-        juce::String _dragCompLabel = "Track ";
-        _dragCompLabel << channel + 1;
-        _draggableComponents[channel]->setDragableComponentLabel(_dragCompLabel);
-        _draggableComponents[channel]->setName(_dragCompLabel);
+        juce::String dragCompLabel = "Track ";
+        dragCompLabel << channel + 1;
+        auto dragCompColour = CustomColors::findCustomColourFromIndex(channel + 1);
 
-        auto& random = juce::Random::getSystemRandom();
-        juce::Colour colour(random.nextInt(256),
-            random.nextInt(256),
-            random.nextInt(256));
-        _draggableComponents[channel]->setDraggableComponentColour(colour);
+        addAndMakeVisible(_draggableComponents[channel]);
+        _draggableComponents[channel]->setDragableComponentLabel(dragCompLabel);
+        _draggableComponents[channel]->setName(dragCompLabel);
+        _draggableComponents[channel]->setDraggableComponentColour(dragCompColour);
+
         _draggableComponents[channel]->addComponentListener(this);
     }
 }

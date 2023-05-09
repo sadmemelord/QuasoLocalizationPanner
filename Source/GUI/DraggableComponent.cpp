@@ -21,6 +21,7 @@ DraggableComponent::DraggableComponent(juce::RangedAudioParameter* rapX, juce::R
 
     //Setting label properties
     addAndMakeVisible(_labelName);
+    _labelName.setEditable(false, true, false);
     _labelName.setColour(juce::Label::textColourId, juce::Colours::black);
 
     _constrainer.setMinimumOnscreenAmounts(50, 50, 50, 50);
@@ -95,10 +96,15 @@ void DraggableComponent::setDragableComponentLabel(juce::String& newName)
     labelFont.setHorizontalScale(0.9f);
     labelFont.setHeight(15.5f);
     labelFont.setBold(true);
+    _labelName.setJustificationType(juce::Justification::centred);
     _labelName.setFont(labelFont);
     _labelName.setText(newName, juce::dontSendNotification);
 }
 
+juce::Label* DraggableComponent::getDragableComponentLabel()
+{
+    return &_labelName;
+}
 void DraggableComponent::setDraggableComponentColour(juce::Colour newColour)
 {
     _colour = newColour;

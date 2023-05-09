@@ -18,7 +18,7 @@
 //==============================================================================
 /**
 */
-class MultitrackPannerAudioProcessorEditor  : public juce::AudioProcessorEditor, public juce::Button::Listener
+class MultitrackPannerAudioProcessorEditor  : public juce::AudioProcessorEditor, public juce::Button::Listener, public juce::Label::Listener
 {
 public:
     MultitrackPannerAudioProcessorEditor (MultitrackPannerAudioProcessor&);
@@ -27,9 +27,10 @@ public:
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
-
+    //===============================================================================
     void buttonClicked(juce::Button* button) override;
-
+    void labelTextChanged(juce::Label* labelThatHasChanged) override;
+    //===============================================================================
     void setTextButtonProperties();
     void setSliderProperties();
     void setGroupProperties();

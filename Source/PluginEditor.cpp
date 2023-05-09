@@ -31,6 +31,12 @@ MultitrackPannerAudioProcessorEditor::MultitrackPannerAudioProcessorEditor (Mult
     panningWindow(&_dragComponents)
 
 {
+
+    for (int channel = 0; channel < INPUTCHANNELS; ++channel)
+    {
+        auto label = _dragComponents[channel]->getDragableComponentLabel();
+        label->addListener(this);
+    }
     attachComponents();
 
     setPanningWindowProperties();
@@ -68,6 +74,18 @@ void MultitrackPannerAudioProcessorEditor::buttonClicked(juce::Button* button)
 
     button->setToggleState(toggleState, false);
     panningWindow.getChildComponent(buttonIndex)->setVisible(toggleState);
+}
+
+void MultitrackPannerAudioProcessorEditor::labelTextChanged(juce::Label* labelThatHasChanged)
+{
+    auto parent = labelThatHasChanged->getParentComponent();
+
+
+    for (int channel = 0; channel < INPUTCHANNELS; ++channel)
+    {
+        if (parent->getName() == textButtons[channel]->getName())
+            textButtons[channel]->setButtonText(labelThatHasChanged->getText());
+    }
 }
 //==============================================================================
 void MultitrackPannerAudioProcessorEditor::paint (juce::Graphics& g)

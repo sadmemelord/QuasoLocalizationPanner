@@ -29,6 +29,7 @@ public:
     void mouseDoubleClick(const juce::MouseEvent& event) override;
     //==============================================================================
     void setDragableComponentLabel(juce::String& newName);
+    juce::Label* getDragableComponentLabel();
     void setDraggableComponentColour(juce::Colour newColour);
     juce::Colour getDraggableComponentColour();
     //==============================================================================

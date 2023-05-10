@@ -1,12 +1,3 @@
-/*
-  ==============================================================================
-
-    CustomColors.cpp
-    Created: 9 May 2023 4:57:49pm
-    Author:  Utente
-
-  ==============================================================================
-*/
 
 #include "CustomColors.h"
 
@@ -47,7 +38,7 @@ juce::Colour CustomColors::findCustomColourFromIndex(int index)
     case 16:
             return CustomColors::palette16;
     default:
-        return juce::Colours::black;
+            return juce::Colours::black;
     }
 
 }

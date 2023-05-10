@@ -1,12 +1,3 @@
-/*
-  ==============================================================================
-
-    PanningWindow.cpp
-    Created: 19 Apr 2023 4:17:17pm
-    Author:  Alberto
-
-  ==============================================================================
-*/
 
 #include "PanningWindow.h"
 PanningWindow::PanningWindow(std::vector<DraggableComponent*> *draggableComponents):

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="EVrGJT" name="MultitrackPanner" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
-              version="1.0.0" companyName="Alberto Roletto" pluginFormats="buildVST3">
-  <MAINGROUP id="lF68lI" name="MultitrackPanner">
+<JUCERPROJECT id="EVrGJT" name="QuasoLocalizationPanner" projectType="audioplug"
+              useAppConfig="0" addUsingNamespaceToJuceHeader="0" displaySplashScreen="1"
+              jucerFormatVersion="1" version="1.0.0" companyName="Alberto Roletto"
+              pluginFormats="buildVST3">
+  <MAINGROUP id="lF68lI" name="QuasoLocalizationPanner">
     <GROUP id="{A467FD8C-85B6-0E85-13E8-F60365BDD59C}" name="Source">
       <GROUP id="{F84A535C-EDDA-4745-6E51-ABAE92015535}" name="GUI">
         <GROUP id="{0024D7CC-CBBC-3C06-46C6-31A0639E5691}" name="ComponentProperties">
@@ -73,8 +74,8 @@
   <EXPORTFORMATS>
     <VS2022 targetFolder="Builds/VisualStudio2022">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" targetName="MultitrackPanner"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="MultitrackPanner"/>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="QuasoLocalizationPanner"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="QuasoLocalizationPanner"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_audio_basics" path="../../../../../JUCE/modules"/>

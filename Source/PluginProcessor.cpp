@@ -10,7 +10,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-MultitrackPannerAudioProcessor::MultitrackPannerAudioProcessor()
+QuasoLocalizationPannerAudioProcessor::QuasoLocalizationPannerAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
      : AudioProcessor (BusesProperties()
                      #if ! JucePlugin_IsMidiEffect
@@ -50,7 +50,7 @@ MultitrackPannerAudioProcessor::MultitrackPannerAudioProcessor()
     }
 }
 
-MultitrackPannerAudioProcessor::~MultitrackPannerAudioProcessor()
+QuasoLocalizationPannerAudioProcessor::~QuasoLocalizationPannerAudioProcessor()
 {
     //removing every parameter listener
     for (int channel = 0; channel < INPUTCHANNELS; ++channel)
@@ -76,7 +76,7 @@ MultitrackPannerAudioProcessor::~MultitrackPannerAudioProcessor()
     newDistances.clear();
 }
 
-juce::AudioProcessorValueTreeState::ParameterLayout MultitrackPannerAudioProcessor::createParameterLayout()
+juce::AudioProcessorValueTreeState::ParameterLayout QuasoLocalizationPannerAudioProcessor::createParameterLayout()
 {
     //Additional buses are disabled by default this method enables them all
     //As of right now Juce is not working correctly with dynamic buses
@@ -113,13 +113,13 @@ juce::AudioProcessorValueTreeState::ParameterLayout MultitrackPannerAudioProcess
 
 }
 
-void MultitrackPannerAudioProcessor::parameterChanged(const juce::String& parameterID, float newValue)
+void QuasoLocalizationPannerAudioProcessor::parameterChanged(const juce::String& parameterID, float newValue)
 {
     updateParameters();
 }
 
 
-void MultitrackPannerAudioProcessor::updateParameters()
+void QuasoLocalizationPannerAudioProcessor::updateParameters()
 {
     //loading the APVTS parameters, load() methos is needed because the values are Atomic
     for (int channel = 0; channel < INPUTCHANNELS; ++channel)
@@ -147,12 +147,12 @@ void MultitrackPannerAudioProcessor::updateParameters()
 }
 
 //==============================================================================
-const juce::String MultitrackPannerAudioProcessor::getName() const
+const juce::String QuasoLocalizationPannerAudioProcessor::getName() const
 {
     return JucePlugin_Name;
 }
 
-bool MultitrackPannerAudioProcessor::acceptsMidi() const
+bool QuasoLocalizationPannerAudioProcessor::acceptsMidi() const
 {
    #if JucePlugin_WantsMidiInput
     return true;
@@ -161,7 +161,7 @@ bool MultitrackPannerAudioProcessor::acceptsMidi() const
    #endif
 }
 
-bool MultitrackPannerAudioProcessor::producesMidi() const
+bool QuasoLocalizationPannerAudioProcessor::producesMidi() const
 {
    #if JucePlugin_ProducesMidiOutput
     return true;
@@ -170,7 +170,7 @@ bool MultitrackPannerAudioProcessor::producesMidi() const
    #endif
 }
 
-bool MultitrackPannerAudioProcessor::isMidiEffect() const
+bool QuasoLocalizationPannerAudioProcessor::isMidiEffect() const
 {
    #if JucePlugin_IsMidiEffect
     return true;
@@ -179,37 +179,37 @@ bool MultitrackPannerAudioProcessor::isMidiEffect() const
    #endif
 }
 
-double MultitrackPannerAudioProcessor::getTailLengthSeconds() const
+double QuasoLocalizationPannerAudioProcessor::getTailLengthSeconds() const
 {
     return 0.0;
 }
 
-int MultitrackPannerAudioProcessor::getNumPrograms()
+int QuasoLocalizationPannerAudioProcessor::getNumPrograms()
 {
     return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
                 // so this should be at least 1, even if you're not really implementing programs.
 }
 
-int MultitrackPannerAudioProcessor::getCurrentProgram()
+int QuasoLocalizationPannerAudioProcessor::getCurrentProgram()
 {
     return 0;
 }
 
-void MultitrackPannerAudioProcessor::setCurrentProgram (int index)
+void QuasoLocalizationPannerAudioProcessor::setCurrentProgram (int index)
 {
 }
 
-const juce::String MultitrackPannerAudioProcessor::getProgramName (int index)
+const juce::String QuasoLocalizationPannerAudioProcessor::getProgramName (int index)
 {
     return {};
 }
 
-void MultitrackPannerAudioProcessor::changeProgramName (int index, const juce::String& newName)
+void QuasoLocalizationPannerAudioProcessor::changeProgramName (int index, const juce::String& newName)
 {
 }
 
 //==============================================================================
-void MultitrackPannerAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
+void QuasoLocalizationPannerAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
     //Defining the DSP spec to easily pass useful data to the DSP modules
     juce::dsp::ProcessSpec spec;
@@ -240,13 +240,13 @@ void MultitrackPannerAudioProcessor::prepareToPlay(double sampleRate, int sample
     updateParameters();
 }
 
-void MultitrackPannerAudioProcessor::releaseResources()
+void QuasoLocalizationPannerAudioProcessor::releaseResources()
 {
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
 }
 
-bool MultitrackPannerAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
+bool QuasoLocalizationPannerAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
 {
     //if (layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo() || layouts.getMainInputChannelSet() != juce::AudioChannelSet::mono())
     //    return false;
@@ -256,7 +256,7 @@ bool MultitrackPannerAudioProcessor::isBusesLayoutSupported (const BusesLayout& 
 }
 
 
-void MultitrackPannerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
+void QuasoLocalizationPannerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     juce::ScopedNoDenormals noDenormals;
 
@@ -283,26 +283,26 @@ void MultitrackPannerAudioProcessor::processBlock (juce::AudioBuffer<float>& buf
 }
 
 //==============================================================================
-bool MultitrackPannerAudioProcessor::hasEditor() const
+bool QuasoLocalizationPannerAudioProcessor::hasEditor() const
 {
     return true; // (change this to false if you choose to not supply an editor)
 }
 
-juce::AudioProcessorEditor* MultitrackPannerAudioProcessor::createEditor()
+juce::AudioProcessorEditor* QuasoLocalizationPannerAudioProcessor::createEditor()
 {
-    return new MultitrackPannerAudioProcessorEditor (*this);
+    return new QuasoLocalizationPannerAudioProcessorEditor (*this);
     //return new juce::GenericAudioProcessorEditor(*this);
 }
 
 //==============================================================================
-void MultitrackPannerAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
+void QuasoLocalizationPannerAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
     //This methods saves the APVTS current parameters when the VST is closed
     juce::MemoryOutputStream    stream(destData, false);
     apvts.state.writeToStream(stream);
 }
 
-void MultitrackPannerAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
+void QuasoLocalizationPannerAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     //This methods restores the last saved APVTS parameters
     auto tree = juce::ValueTree::readFromData(data, size_t(sizeInBytes));
@@ -313,14 +313,14 @@ void MultitrackPannerAudioProcessor::setStateInformation (const void* data, int 
     }
 }
 
-void MultitrackPannerAudioProcessor::saveComponentLabelText(DraggableComponent& dragComp)
+void QuasoLocalizationPannerAudioProcessor::saveComponentLabelText(DraggableComponent& dragComp)
 {
     auto labelText = dragComp.getDragableComponentLabel()->getText();
     auto label = apvts.state.getOrCreateChildWithName(dragComp.getName(), nullptr);
     label.setProperty(dragComp.getName(), labelText, nullptr);
 }
 
-juce::String MultitrackPannerAudioProcessor::loadComponentLabelText(DraggableComponent& dragComp)
+juce::String QuasoLocalizationPannerAudioProcessor::loadComponentLabelText(DraggableComponent& dragComp)
 {
 
     auto label = apvts.state.getOrCreateChildWithName(dragComp.getName(), nullptr);
@@ -330,5 +330,5 @@ juce::String MultitrackPannerAudioProcessor::loadComponentLabelText(DraggableCom
 // This creates new instances of the plugin..
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
-    return new MultitrackPannerAudioProcessor();
+    return new QuasoLocalizationPannerAudioProcessor();
 }

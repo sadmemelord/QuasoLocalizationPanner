@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<FILTERGRAPH>
+  <FILTER uid="1" x="0.5" y="0.1" useARA="0">
+    <PLUGIN name="Audio Input" descriptiveName="" format="Internal" category="I/O devices"
+            manufacturer="JUCE" version="1.0" file="" uniqueId="246006c0"
+            isInstrument="0" fileTime="0" infoUpdateTime="0" numInputs="0"
+            numOutputs="2" isShell="0" hasARAExtension="0" uid="246006c0"/>
+    <STATE>0.</STATE>
+    <LAYOUT>
+      <INPUTS>
+        <BUS index="0" layout="disabled"/>
+      </INPUTS>
+      <OUTPUTS>
+        <BUS index="0" layout="L R"/>
+      </OUTPUTS>
+    </LAYOUT>
+  </FILTER>
+  <FILTER uid="2" x="0.25" y="0.1" useARA="0">
+    <PLUGIN name="MIDI Input" descriptiveName="" format="Internal" category="I/O devices"
+            manufacturer="JUCE" version="1.0" file="" uniqueId="a9e4f9eb"
+            isInstrument="0" fileTime="0" infoUpdateTime="0" numInputs="0"
+            numOutputs="0" isShell="0" hasARAExtension="0" uid="a9e4f9eb"/>
+    <STATE>0.</STATE>
+    <LAYOUT>
+      <INPUTS>
+        <BUS index="0" layout="disabled"/>
+      </INPUTS>
+      <OUTPUTS>
+        <BUS index="0" layout="disabled"/>
+      </OUTPUTS>
+    </LAYOUT>
+  </FILTER>
+  <FILTER uid="3" x="0.5" y="0.9" useARA="0">
+    <PLUGIN name="Audio Output" descriptiveName="" format="Internal" category="I/O devices"
+            manufacturer="JUCE" version="1.0" file="" uniqueId="724248cb"
+            isInstrument="0" fileTime="0" infoUpdateTime="0" numInputs="2"
+            numOutputs="0" isShell="0" hasARAExtension="0" uid="724248cb"/>
+    <STATE>0.</STATE>
+    <LAYOUT>
+      <INPUTS>
+        <BUS index="0" layout="L R"/>
+      </INPUTS>
+      <OUTPUTS>
+        <BUS index="0" layout="disabled"/>
+      </OUTPUTS>
+    </LAYOUT>
+  </FILTER>
+  <FILTER uid="4" x="0.25" y="0.9" useARA="0">
+    <PLUGIN name="MIDI Output" descriptiveName="" format="Internal" category="I/O devices"
+            manufacturer="JUCE" version="1.0" file="" uniqueId="9d5bbb00"
+            isInstrument="0" fileTime="0" infoUpdateTime="0" numInputs="0"
+            numOutputs="0" isShell="0" hasARAExtension="0" uid="9d5bbb00"/>
+    <STATE>0.</STATE>
+    <LAYOUT>
+      <INPUTS>
+        <BUS index="0" layout="disabled"/>
+      </INPUTS>
+      <OUTPUTS>
+        <BUS index="0" layout="disabled"/>
+      </OUTPUTS>
+    </LAYOUT>
+  </FILTER>
+  <FILTER uid="5" x="0.4811083123425693" y="0.3931451612903226" useARA="0"
+          uiLastX_IO="6" uiLastY_IO="294" uiopen_IO="0">
+    <PLUGIN name="AudioFilePlayer" format="VST3" category="Fx" manufacturer="Matkat Music LLC"
+            version="1.0.0" file="C:\Users\Utente\Desktop\TESI\Juce Projects\AudioFilePlayer-master\Builds\VisualStudio2022\x64\Debug\VST3\AudioFilePlayer.vst3"
+            uniqueId="79fe81c" isInstrument="0" fileTime="18486e780e8" infoUpdateTime="18805f0c02f"
+            numInputs="1" numOutputs="1" isShell="0" hasARAExtension="0"
+            uid="e95d02c7"/>
+    <STATE>191.VMjLgXK....O+fWarAhckI2bo8la8HRLt.iHfTlai8FYo41Y8HRUTYTK3HxO9.BOVMEUy.Ea0cVZtMEcgQWY9vSRC8Vav8lak4Fc9XCLt3hKt3hKt3hKt3hYRUUSTEETIckVwTjQisVTTgkdEYjKAQjYPQSPWgUdMcjKAQjct3hdA4hKt3hKt3hKtnTUv.UQAslXuk0UXoWUFE0YQcEV77RRC8Vav8lak4Fc9vyKVMEUy.Ea0cVZtMEcgQWY9..</STATE>
+    <LAYOUT>
+      <INPUTS>
+        <BUS index="0" layout="C"/>
+      </INPUTS>
+      <OUTPUTS>
+        <BUS index="0" layout="C"/>
+      </OUTPUTS>
+    </LAYOUT>
+  </FILTER>
+  <FILTER uid="6" x="0.5138539042821159" y="0.6290322580645161" useARA="0"
+          uiLastX_Normal="57" uiLastY_Normal="434" uiopen_Normal="0">
+    <PLUGIN name="QuasoLocalizationPanner" format="VST3" category="Fx" manufacturer="Alberto Roletto"
+            version="1.0.0" file="C:\Users\Utente\Desktop\TESI\MultitrackPanner\Builds\VisualStudio2022\x64\Debug\VST3\QuasoLocalizationPanner.vst3"
+            uniqueId="f2aae41c" isInstrument="0" fileTime="18805eefe22" infoUpdateTime="18805f0c030"
+            numInputs="1" numOutputs="1" isShell="0" hasARAExtension="0"
+            uid="e9539fcb"/>
+    <STATE>3032.VMjLg77B...O+fWarAhckI2bo8la8HRLt.iHfTlai8FYo41Y8HRUTYTK3HxO9.BOVMEUy.Ea0cVZtMEcgQWY9vSRC8Vav8lak4Fc9HSL3jiKPUjZTEDLTEEUUoFUSEjKtDDQDQUPIUETMEDTtHjZFkkKDYmPEAkUZkWTWgEcMYUV24hYic1cVM1ZAAkKIAkKt3hKt3hKt3RMq3hKTETRUAUSAAkKBolQY4BQtLTQPYkV4E0UXQWSVk0ctLjKwTjQgASUF4RPp4RPt3hKt3hKt3haqLjKPUjZTEDLD4RPHAkVpEDTtvDUtj0aMczXmQSLXsVQSwjKXcEVxU0UY4BQPIDQt3hKt3hKt3hY47jKtTETRUDUS4BQl4xaQYjKAYGTAo1ZwHldEwVXoUkULgmKlM1Y2Y0XqEDTtjDTt3hKt3hKt3hK0rhKtPUPIUETMEDTtHjZFkkKD4xPEAkUZkWTWgEcMYUV2wzPtDSQFEFLUYjKAolKA4hKt3hKt3hKtsxPt.UQpQUPvPjKAgDTZoVPP4BST4RVu0zQicFMwf0ZEMTStf0UXIWUWkkKDAkPD4hKt3hKt3hKlkySt3RUPIUQTMkKDYlKuEkQtDjcPEjZqEiX5UDagkVUVwDLtX1XmcmUisVPP4RRP4hKt3hKt3hKtTyJt3BUAkTUP0TPP4hPpYTVtPjKCUDTVoUdQcEVz0jUYcGVC4RLEYTXvTkQtDjZtDjKt3hKt3hKt31JC4BTEoFUAACQtDDRPokZAAkKKQkKY8VSGM1YzDCVqkzPtDSQFEFLUYjKAolKA4hKt3hKt3hKtsxPt.UQpQUPvPjKAgDTZoVPP4xRT4RVu0zQicFMwf0ZMMjKwTjQgASUF4RPp4RPt3hKt3hKt3haqLjKPUjZTEDLD4RPHAkVpEDTtrDUtj0aMczXmQSLXsVTC4RLEYTXvTkQtDjZtDjKt3hKt3hKt31JC4BTEoFUAACQtDDRPokZAAkKKQkKY8VSGM1YzDCVqU0PtDSQFEFLUYjKAolKA4hKt3hKt3hKtsxPt.UQpQUPvPjKAgDTZoVPP4xRT4RVu0zQicFMwf0ZYMjKwTjQgASUF4RPp4RPt3hKt3hKt3haqLjKPUjZTEDLD4RPHAkVpEDTtrDUtj0aMczXmQSLXs1XC4RLEYTXvTkQtDjZtDjKt3hKt3hKt31JC4BTEoFUAACQtDDRPokZAAkKKQkKY8VSGM1YzDCVqc1PtDSQFEFLUYjKAolKA4hKt3hKt3hKtsxPt.UQpQUPvPjKAgDTZoVPP4xRT4RVu0zQicFMwf0ZqMjKwTjQgASUF4RPp4RPt3hKt3hKt3haqLjKPUjZTEDLD4RPHAkVpEDTtfDU1EFLQcjXvD0QtDSQFEFLUYjKAolKA4hKt3hKt3hKt3hKt.UQpQUPvPjKAgDTZoVPP4hQT4hXmQiUL4BVWgkbUcUVtPDTBQjKt3hKt3hKt3hKt3hKUAkTEQ0TtPjYt7VTF4RPhAUP1UDagcmKC4RLEYTXvTkQtDjZtDjKt3hKt3hKt3hKt3BTEoFUAACQtDDRPokZAAkKGQkKhcFMVwzctX1XmcmUisVPP4RRP4hKt3hKt3hKt3hKt3BUAkTUP0TPP4hPpYTVtPjcAUjKWgEcEkFStf0UXIWUWkkKDAkPD4hKt3hKt3hKt3hKt3RUPIUQTMkKDYlKuEkQtDjXPEjcEwVX2wzPtDSQFEFLUYjKAolKA4hKt3hKt3hKt3hKt.UQpQUPvPjKAgDTZoVPP4xQT4hXmQiULomKlM1Y2Y0XqEDTtjDTt3hKt3hKt3hKt3hKtPUPIUETMEDTtHjZFkkKDYWPE4xUXQWQS0jKXcEVxU0UY4BQPIDQt3hKt3hKt3hKt3hKtTETRUDUS4BQl4xaQYjKAIFTAYWQrE1cXMjKwTjQgASUF4RPp4RPt3hKt3hKt3hKt3hKPUjZTEDLD4RPHAkVpEDTtXDUtH1YzvFStf0UXIWUWkkKDAkPD4hKt3hKt3hKt3hKt3RUPIUQTMkKDYlKuEkQtDDVPEjcEwVX44hYic1cVM1ZAAkKIAkKt3hKt3hKt3hKt3hKTETRUAUSAAkKBolQY4BQlETQtbEVzE0PtDSQFEFLUYjKAolKA4hKt3hKt3hKt3hKt.UQpQUPvPjKAgDTZoVPP4hQT4hXmQiUM4BVWgkbUcUVtPDTBQjKt3hKt3hKt3hKt3hKUAkTEQ0TtPjYt7VTF4RPXAUP1UDagEiKlM1Y2Y0XqEDTtjDTt3hKt3hKt3hKt3hKtPUPIUETMEDTtHjZFkkKDYVPE4xUXQ2XC4RLEYTXvTkQtDjZtDjKt3hKt3hKt3hKt3BTEoFUAACQtDDRPokZAAkKFQkKhcFMF4jKXcEVxU0UY4BQPIDQt3hKt3hKt3hKt3hKtTETRUDUS4BQl4xaQYjKAgETAYWQrEFMtX1XmcmUisVPP4RRP4hKt3hKt3hKt3hKt3BUAkTUP0TPP4hPpYTVtPjKBUDTsI1YMEiV24hYic1cVM1ZAAkKIAkKt3hKt3hKt3xMq3hKTETRUAUSAAkKBolQY4BQPITQP0lXm0TLZcmKC4RLEYTXvTkQtDjZtDjKt3hKt3hKtX2JC4BTEoFUAACQtDDRPokZAAkKIQkKigWQwfUbEMEStf0UXIWUWkkKDAkPD4hKt3hKt3hKtrxSt3RUPIUQTMkKDYlKuEkQtDjZPEjdIcEVoMmULgmKlM1Y2Y0XqEDTtjDTt3hKt3hKt3hK2rhKtPUPIUETMEDTtHjZFkkKDAkPEAUahcVSwn0cLMjKwTjQgASUF4RPp4RPt3hKt3hKt3hcqLjKPUjZTEDLD4RPHAkVpEDTtjDUtLFdEECVwUzPM4BVWgkbUcUVtPDTBQjKt3hKt3hKt3xJO4hKUAkTEQ0TtPjYt7VTF4RPpAUP5kzUXk1bVwDLtX1XmcmUisVPP4RRP4hKt3hKt3hKtbyJt3BUAkTUP0TPP4hPpYTVtPDTBUDTsI1YMEiV2g0PtDSQFEFLUYjKAolKA4hKt3hKt3hK1sxPt.UQpQUPvPjKAgDTZoVPP4BRT4xX3UTLXEWRC4RLEYTXvTkQtDjZtDjKt3hKt3hKtX2JC4BTEoFUAACQtDDRPokZAAkKHQkKigWQwfUbMMjKwTjQgASUF4RPp4RPt3hKt3hKt3hcqLjKPUjZTEDLD4RPHAkVpEDTtfDUtLFdEECVwE0PtDSQFEFLUYjKAolKA4hKt3hKt3hK1sxPt.UQpQUPvPjKAgDTZoVPP4BRT4xX3UTLXEWUC4RLEYTXvTkQtDjZtDjKt3hKt3hKtX2JC4BTEoFUAACQtDDRPokZAAkKHQkKigWQwfUbYMjKwTjQgASUF4RPp4RPt3hKt3hKt3hcqLjKPUjZTEDLD4RPHAkVpEDTtfDUtLFdEECVwM1PtDSQFEFLUYjKAolKA4hKt3hKt3hK1sxPt.UQpQUPvPjKAgDTZoVPP4BRT4xX3UTLXE2YC4RLEYTXvTkQtDjZtDjKt3hKt3hKtX2JC4BTEoFUAACQtDDRPokZAAkKHQkKigWQwfUbqMjKwTjQgASUF4RPp4RPt3hKt3hKt3hcqLjKTkzUXk1bFgzct3hKt.0ZhcVSwnkYHMjKt3hKUgWQwfUbAgGSt3hKtPURWgUZyYDR54hKt3BTqI1YMEiVlQ0Pt3hKtTEdEECVwEDZM4hKt3BUIcEVoMmQHIiKt3hKPslXm0TLZYlYC4hKt3RU3UTLXEWPR4jKt3hKTkzUXk1bFgzctLjKt3hKUgWQwfUbAIES24hKt3BTqI1YMEiVlQTZL4hKt3BUIcEVoMmQHcGSC4hKt3RU3UTLXEWPRwjdt3hKt.0ZhcVSwnkYDMUSt3hKtPURWgUZyYDR2g0Pt3hKt3hKt3hKt3hKt3haTU0PUQDU3sFaicVTWkEQEYzXmEDTtDDRTQlcEEiX4EDTtDDSt3xXt3hKt3hKt3hKlIUUMQUTPkzUZESQFM1ZQQEV5UjQ77RRC8Vav8lak4Fc9vyKVMEUy.Ea0cVZtMEcgQWY9..</STATE>
+    <LAYOUT>
+      <INPUTS>
+        <BUS index="0" layout="C"/>
+      </INPUTS>
+      <OUTPUTS>
+        <BUS index="0" layout="C"/>
+      </OUTPUTS>
+    </LAYOUT>
+  </FILTER>
+  <CONNECTION srcFilter="5" srcChannel="0" dstFilter="6" dstChannel="0"/>
+  <CONNECTION srcFilter="6" srcChannel="0" dstFilter="3" dstChannel="0"/>
+  <CONNECTION srcFilter="6" srcChannel="0" dstFilter="3" dstChannel="1"/>
+</FILTERGRAPH>

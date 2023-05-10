@@ -1,15 +1,7 @@
-/*
-  ==============================================================================
-
-    CustomPeakFilter.h
-    Created: 15 Feb 2023 4:27:49pm
-    Author:  Utente
-
-  ==============================================================================
-*/
 
 #pragma once
 #include <JuceHeader.h>
+
 using PeakFilter = juce::dsp::IIR::Filter<float>;
 using Coefficients = PeakFilter::CoefficientsPtr;
 

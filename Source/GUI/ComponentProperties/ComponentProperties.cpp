@@ -1,16 +1,7 @@
-/*
-  ==============================================================================
-
-    ComponentsProperties.cpp
-    Created: 2 May 2023 5:57:45pm
-    Author:  Alberto
-
-  ==============================================================================
-*/
 
 #include "../../PluginEditor.h"
 
-void MultitrackPannerAudioProcessorEditor::attachComponents()
+void QuasoLocalizationPannerAudioProcessorEditor::attachComponents()
 {
     //Buttons are attached to the APVTS' Active Track parameter
     for (int channel = 0; channel < INPUTCHANNELS; ++channel)
@@ -20,10 +11,10 @@ void MultitrackPannerAudioProcessorEditor::attachComponents()
     }
 
     //The output volume slider is attached to the output parameter with the default Slider Attachment class
-    masterVolumeAttach = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "output", masterVolumeSlider);
+    outputSliderAttach = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "output", outputSlider);
 }
 
-void MultitrackPannerAudioProcessorEditor::setTextButtonProperties()
+void QuasoLocalizationPannerAudioProcessorEditor::setTextButtonProperties()
 {
     for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
@@ -47,32 +38,32 @@ void MultitrackPannerAudioProcessorEditor::setTextButtonProperties()
     }
 }
 
-void MultitrackPannerAudioProcessorEditor::setSliderProperties()
+void QuasoLocalizationPannerAudioProcessorEditor::setSliderProperties()
 {
-    addAndMakeVisible(masterVolumeSlider);
-    masterVolumeSlider.setSliderStyle(juce::Slider::LinearVertical);
-    masterVolumeSlider.setRange(-64.0f, +12.0f);
-    masterVolumeSlider.setDoubleClickReturnValue(true, 0.0f);
-    masterVolumeSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 70, 35);
-    masterVolumeSlider.setTextValueSuffix(" dB");
-    masterVolumeSlider.setColour(juce::Slider::thumbColourId, juce::Colours::white);
-    masterVolumeSlider.setColour(juce::Slider::trackColourId, CustomColors::lightGrey);
-    masterVolumeSlider.setColour(juce::Slider::backgroundColourId, CustomColors::darkerGrey.brighter(0.1f));
-    masterVolumeSlider.setColour(juce::Slider::textBoxOutlineColourId, CustomColors::darkerGrey.withAlpha(0.0f));
-    masterVolumeSlider.setLookAndFeel(&verticalSliderLookAndFeel);
+    addAndMakeVisible(outputSlider);
+    outputSlider.setSliderStyle(juce::Slider::LinearVertical);
+    outputSlider.setRange(-64.0f, +12.0f);
+    outputSlider.setDoubleClickReturnValue(true, 0.0f);
+    outputSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 70, 35);
+    outputSlider.setTextValueSuffix(" dB");
+    outputSlider.setColour(juce::Slider::thumbColourId, juce::Colours::white);
+    outputSlider.setColour(juce::Slider::trackColourId, CustomColors::lightGrey);
+    outputSlider.setColour(juce::Slider::backgroundColourId, CustomColors::darkerGrey.brighter(0.1f));
+    outputSlider.setColour(juce::Slider::textBoxOutlineColourId, CustomColors::darkerGrey.withAlpha(0.0f));
+    outputSlider.setLookAndFeel(&verticalSliderLookAndFeel);
 
-    addAndMakeVisible(masterVolumeLabel);
-    masterVolumeLabel.setText("Output", juce::dontSendNotification);
+    addAndMakeVisible(outputSliderLabel);
+    outputSliderLabel.setText("Output", juce::dontSendNotification);
 }
 
-void  MultitrackPannerAudioProcessorEditor::setGroupProperties()
+void  QuasoLocalizationPannerAudioProcessorEditor::setGroupProperties()
 {
     addAndMakeVisible(buttonsGroup);
     buttonsGroup.setColour(buttonsGroup.outlineColourId, CustomColors::lightGrey.withAlpha(0.25f));
     buttonsGroup.setColour(buttonsGroup.textColourId, CustomColors::lightGrey);
     buttonsGroup.setText("Active Tracks");
 }
-void MultitrackPannerAudioProcessorEditor::setPanningWindowProperties()
+void QuasoLocalizationPannerAudioProcessorEditor::setPanningWindowProperties()
 {
     addAndMakeVisible(panningWindow);
 

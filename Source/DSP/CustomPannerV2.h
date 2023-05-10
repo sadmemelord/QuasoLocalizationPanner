@@ -1,17 +1,7 @@
-/*
-  ==============================================================================
-
-    CustomPannerV2.h
-    Created: 11 Feb 2023 3:08:12pm
-    Author:  Utente
-
-  ==============================================================================
-*/
-
 #pragma once
 #include <JuceHeader.h>
 
-/**
+/*
 The CustomPannerV2 class allows the individual panning of an arbitrary number of mono tracks on a stereo output.
 The only panning method avaiable is "Balanced" panning rule copied from the default juce::dsp::Panner class).
 New pan values for each track are passed by reference to the setPan() method as a vector of floats, whose size 

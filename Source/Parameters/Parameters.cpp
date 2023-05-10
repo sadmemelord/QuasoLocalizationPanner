@@ -1,12 +1,3 @@
-/*
-  ==============================================================================
-
-    Parameters.cpp
-    Created: 10 Feb 2023 6:44:25pm
-    Author:  Utente
-
-  ==============================================================================
-*/
 
 #include "../PluginProcessor.h"
 
@@ -14,7 +5,7 @@
 //every ID is written in the form of "name+number" while every Name is expressed in the form of "Name + number"
 //for example the ID and Name of the Pan parameter of track 2 will be "pan2" and "Pan 2"
 
-juce::StringArray MultitrackPannerAudioProcessor::getActiveTracksIDs()
+juce::StringArray QuasoLocalizationPannerAudioProcessor::getActiveTracksIDs()
 {
     juce::StringArray tIDs;
 
@@ -30,7 +21,7 @@ juce::StringArray MultitrackPannerAudioProcessor::getActiveTracksIDs()
 
 }
 
-juce::StringArray MultitrackPannerAudioProcessor::getActiveTracksNames()
+juce::StringArray QuasoLocalizationPannerAudioProcessor::getActiveTracksNames()
 {
     juce::StringArray tNames;
 
@@ -46,7 +37,7 @@ juce::StringArray MultitrackPannerAudioProcessor::getActiveTracksNames()
 }
 
 
-juce::StringArray MultitrackPannerAudioProcessor::getDistanceIDs()
+juce::StringArray QuasoLocalizationPannerAudioProcessor::getDistanceIDs()
 {
     juce::StringArray dIDs;
 
@@ -61,7 +52,7 @@ juce::StringArray MultitrackPannerAudioProcessor::getDistanceIDs()
     return dIDs;
 }
 
-juce::StringArray MultitrackPannerAudioProcessor::getDistanceNames()
+juce::StringArray QuasoLocalizationPannerAudioProcessor::getDistanceNames()
 {
     juce::StringArray dNames;
 
@@ -76,7 +67,7 @@ juce::StringArray MultitrackPannerAudioProcessor::getDistanceNames()
     return dNames;
 }
 
-juce::StringArray MultitrackPannerAudioProcessor::getPanIDs()
+juce::StringArray QuasoLocalizationPannerAudioProcessor::getPanIDs()
 {
     juce::StringArray pIDs;
 
@@ -91,7 +82,7 @@ juce::StringArray MultitrackPannerAudioProcessor::getPanIDs()
     return pIDs;
 }
 
-juce::StringArray MultitrackPannerAudioProcessor::getPanNames()
+juce::StringArray QuasoLocalizationPannerAudioProcessor::getPanNames()
 {
     juce::StringArray pNames;
 

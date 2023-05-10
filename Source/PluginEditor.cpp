@@ -10,7 +10,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-MultitrackPannerAudioProcessorEditor::MultitrackPannerAudioProcessorEditor (MultitrackPannerAudioProcessor& p)
+QuasoLocalizationPannerAudioProcessorEditor::QuasoLocalizationPannerAudioProcessorEditor (QuasoLocalizationPannerAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p),
     _dragComp1(p.apvts.getParameter("pan1"), p.apvts.getParameter("distance1")),
     _dragComp2(p.apvts.getParameter("pan2"), p.apvts.getParameter("distance2")),
@@ -43,7 +43,7 @@ MultitrackPannerAudioProcessorEditor::MultitrackPannerAudioProcessorEditor (Mult
     juce::AudioProcessorEditor::setResizable(false, false);
 }
 
-MultitrackPannerAudioProcessorEditor::~MultitrackPannerAudioProcessorEditor()
+QuasoLocalizationPannerAudioProcessorEditor::~QuasoLocalizationPannerAudioProcessorEditor()
 {
     for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
@@ -53,7 +53,7 @@ MultitrackPannerAudioProcessorEditor::~MultitrackPannerAudioProcessorEditor()
     textButtons.shrink_to_fit();
 }
 
-void MultitrackPannerAudioProcessorEditor::buttonClicked(juce::Button* button)
+void QuasoLocalizationPannerAudioProcessorEditor::buttonClicked(juce::Button* button)
 {
     int buttonIndex;
     bool toggleState = !button->getToggleState();
@@ -68,10 +68,9 @@ void MultitrackPannerAudioProcessorEditor::buttonClicked(juce::Button* button)
     panningWindow.getChildComponent(buttonIndex)->setVisible(toggleState);
 }
 
-void MultitrackPannerAudioProcessorEditor::labelTextChanged(juce::Label* labelThatHasChanged)
+void QuasoLocalizationPannerAudioProcessorEditor::labelTextChanged(juce::Label* labelThatHasChanged)
 {
     auto parent = labelThatHasChanged->getParentComponent();
-
 
     for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
@@ -82,11 +81,9 @@ void MultitrackPannerAudioProcessorEditor::labelTextChanged(juce::Label* labelTh
             audioProcessor.saveComponentLabelText(*_dragComponents[channel]);
         }
     }
-
-
 }
 //==============================================================================
-void MultitrackPannerAudioProcessorEditor::paint (juce::Graphics& g)
+void QuasoLocalizationPannerAudioProcessorEditor::paint(juce::Graphics& g)
 {
   
     g.setGradientFill(juce::ColourGradient::vertical(CustomColors::darkerGrey, getHeight(),
@@ -98,7 +95,7 @@ void MultitrackPannerAudioProcessorEditor::paint (juce::Graphics& g)
 }
 
 
-void MultitrackPannerAudioProcessorEditor::resized()
+void QuasoLocalizationPannerAudioProcessorEditor::resized()
 {
     float panningWindowX = 75;
     float panningWindowY = 75;
@@ -115,15 +112,13 @@ void MultitrackPannerAudioProcessorEditor::resized()
     for (int channel = 0; channel < INPUTCHANNELS; ++channel)
     {
         if(channel <= 7)
-       textButtons[channel]->setBounds(panningWindowX + 4 + channel * textButtonWidth + channel * buttonDistance,
-                                       buttonsGroup.getY() + 30, textButtonWidth, textButtonHeight);
+            textButtons[channel]->setBounds(panningWindowX + 4 + channel * textButtonWidth + channel * buttonDistance,
+                                            buttonsGroup.getY() + 30, textButtonWidth, textButtonHeight);
         else
             textButtons[channel]->setBounds(panningWindowX + 4 + (channel - 8) * textButtonWidth + (channel - 8) * buttonDistance,
                                             buttonsGroup.getBottom() - 25 - textButtonHeight, textButtonWidth, textButtonHeight);
     }
 
-
-
-    masterVolumeSlider.setBounds(panningWindow.getRight(), 1.5 * panningWindowY, getRight() - panningWindow.getRight(), panningWindow.getBottom() - 1.5 * panningWindowY);
-    masterVolumeLabel.setBounds(masterVolumeSlider.getX() + 10, masterVolumeSlider.getY() - 30, masterVolumeSlider.getWidth(), 30);
+    outputSlider.setBounds(panningWindow.getRight(), 1.5 * panningWindowY, getRight() - panningWindow.getRight(), panningWindow.getBottom() - 1.5 * panningWindowY);
+    outputSliderLabel.setBounds(outputSlider.getX() + 10, outputSlider.getY() - 30, outputSlider.getWidth(), 30);
 }

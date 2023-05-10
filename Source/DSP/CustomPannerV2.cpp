@@ -1,16 +1,5 @@
-/*
-  ==============================================================================
-
-    CustomPannerV2.cpp
-    Created: 11 Feb 2023 3:08:12pm
-    Author:  Utente
-
-  ==============================================================================
-*/
 
 #include "CustomPannerV2.h"
-
-
 
 CustomPannerV2::CustomPannerV2()
 {
@@ -28,15 +17,13 @@ void CustomPannerV2::setPan(std::vector<float>& newPans, std::vector<bool>& newA
 
     update();
 }
+
 void CustomPannerV2::prepare(const juce::dsp::ProcessSpec& spec)
 {
-    //jassert(spec.sampleRate > 0);
-    //jassert(spec.numChannels > 0);
-
     _sampleRate = spec.sampleRate;
-
     reset();
 }
+
 void CustomPannerV2::reset()
 {
     //every vector is filled with default values up to the number of input channels defined by _inputChannels

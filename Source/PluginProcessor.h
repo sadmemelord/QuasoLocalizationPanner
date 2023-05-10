@@ -7,7 +7,6 @@
 */
 
 #pragma once
-
 #include <JuceHeader.h>
 #include "DSP/CustomPannerV2.h"
 #include "DSP/CustomGain.h"
@@ -24,15 +23,15 @@
 //==============================================================================
 /**
 */
-class MultitrackPannerAudioProcessor  : public juce::AudioProcessor, juce::AudioProcessorValueTreeState::Listener
+class QuasoLocalizationPannerAudioProcessor  : public juce::AudioProcessor, juce::AudioProcessorValueTreeState::Listener
                             #if JucePlugin_Enable_ARA
                              , public juce::AudioProcessorARAExtension
                             #endif
 {
 public:
     //==============================================================================
-    MultitrackPannerAudioProcessor();
-    ~MultitrackPannerAudioProcessor() override;
+    QuasoLocalizationPannerAudioProcessor();
+    ~QuasoLocalizationPannerAudioProcessor() override;
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -151,9 +150,6 @@ private:
     std::vector<float> newDistances;
     std::vector<float> newOutputGains;
 
-
-
-
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MultitrackPannerAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (QuasoLocalizationPannerAudioProcessor)
 };

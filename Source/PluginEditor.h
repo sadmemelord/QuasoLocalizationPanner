@@ -7,7 +7,6 @@
 */
 
 #pragma once
-
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "GUI/PanningWindow.h"
@@ -18,11 +17,11 @@
 //==============================================================================
 /**
 */
-class MultitrackPannerAudioProcessorEditor  : public juce::AudioProcessorEditor, public juce::Button::Listener, public juce::Label::Listener
+class QuasoLocalizationPannerAudioProcessorEditor  : public juce::AudioProcessorEditor, public juce::Button::Listener, public juce::Label::Listener
 {
 public:
-    MultitrackPannerAudioProcessorEditor (MultitrackPannerAudioProcessor&);
-    ~MultitrackPannerAudioProcessorEditor() override;
+    QuasoLocalizationPannerAudioProcessorEditor (QuasoLocalizationPannerAudioProcessor&);
+    ~QuasoLocalizationPannerAudioProcessorEditor() override;
 
     //==============================================================================
     void paint (juce::Graphics&) override;
@@ -40,8 +39,9 @@ public:
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
-    MultitrackPannerAudioProcessor& audioProcessor;
+    QuasoLocalizationPannerAudioProcessor& audioProcessor;
 
+    //Draggable Components
     DraggableComponent _dragComp1;
     DraggableComponent _dragComp2;
     DraggableComponent _dragComp3;
@@ -66,12 +66,16 @@ private:
       &_dragComp13, &_dragComp14, &_dragComp15, &_dragComp16
     };
 
+    //Panning Window
     PanningWindow panningWindow;
 
+    //Custom Look&Feel for the buttons
     ButtonLAF buttonLookAndFeel;
 
+    //Buttons Group
     juce::GroupComponent buttonsGroup;
 
+    //Text Buttons
     juce::TextButton textButton1;
     juce::TextButton textButton2;
     juce::TextButton textButton3;
@@ -97,13 +101,15 @@ private:
     };
     std::vector< std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment>> textButtonsAttach;
 
+    //Logo Image
     juce::Image logoImage;
 
+    //Output Slider
     VerticalSliderLAF verticalSliderLookAndFeel;
-    juce::Slider masterVolumeSlider;
-    juce::Label masterVolumeLabel;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> masterVolumeAttach;
+    juce::Slider outputSlider;
+    juce::Label outputSliderLabel;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> outputSliderAttach;
 
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MultitrackPannerAudioProcessorEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (QuasoLocalizationPannerAudioProcessorEditor)
 };

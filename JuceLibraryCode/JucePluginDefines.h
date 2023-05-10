@@ -41,10 +41,10 @@
  #define JucePlugin_Enable_ARA             0
 #endif
 #ifndef  JucePlugin_Name
- #define JucePlugin_Name                   "MultitrackPanner"
+ #define JucePlugin_Name                   "QuasoLocalizationPanner"
 #endif
 #ifndef  JucePlugin_Desc
- #define JucePlugin_Desc                   "MultitrackPanner"
+ #define JucePlugin_Desc                   "QuasoLocalizationPanner"
 #endif
 #ifndef  JucePlugin_Manufacturer
  #define JucePlugin_Manufacturer           "Alberto Roletto"
@@ -101,19 +101,19 @@
  #define JucePlugin_AUSubType              JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_AUExportPrefix
- #define JucePlugin_AUExportPrefix         MultitrackPannerAU
+ #define JucePlugin_AUExportPrefix         QuasoLocalizationPannerAU
 #endif
 #ifndef  JucePlugin_AUExportPrefixQuoted
- #define JucePlugin_AUExportPrefixQuoted   "MultitrackPannerAU"
+ #define JucePlugin_AUExportPrefixQuoted   "QuasoLocalizationPannerAU"
 #endif
 #ifndef  JucePlugin_AUManufacturerCode
  #define JucePlugin_AUManufacturerCode     JucePlugin_ManufacturerCode
 #endif
 #ifndef  JucePlugin_CFBundleIdentifier
- #define JucePlugin_CFBundleIdentifier     com.AlbertoRoletto.MultitrackPanner
+ #define JucePlugin_CFBundleIdentifier     com.AlbertoRoletto.QuasoLocalizationPanner
 #endif
 #ifndef  JucePlugin_AAXIdentifier
- #define JucePlugin_AAXIdentifier          com.AlbertoRoletto.MultitrackPanner
+ #define JucePlugin_AAXIdentifier          com.AlbertoRoletto.QuasoLocalizationPanner
 #endif
 #ifndef  JucePlugin_AAXManufacturerCode
  #define JucePlugin_AAXManufacturerCode    JucePlugin_ManufacturerCode
@@ -137,7 +137,7 @@
  #define JucePlugin_IAASubType             JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_IAAName
- #define JucePlugin_IAAName                "Alberto Roletto: MultitrackPanner"
+ #define JucePlugin_IAAName                "Alberto Roletto: QuasoLocalizationPanner"
 #endif
 #ifndef  JucePlugin_VSTNumMidiInputs
  #define JucePlugin_VSTNumMidiInputs       16
@@ -152,10 +152,10 @@
  #define JucePlugin_ARATransformationFlags  0
 #endif
 #ifndef  JucePlugin_ARAFactoryID
- #define JucePlugin_ARAFactoryID           "com.AlbertoRoletto.MultitrackPanner.factory"
+ #define JucePlugin_ARAFactoryID           "com.AlbertoRoletto.QuasoLocalizationPanner.factory"
 #endif
 #ifndef  JucePlugin_ARADocumentArchiveID
- #define JucePlugin_ARADocumentArchiveID   "com.AlbertoRoletto.MultitrackPanner.aradocumentarchive.1.0.0"
+ #define JucePlugin_ARADocumentArchiveID   "com.AlbertoRoletto.QuasoLocalizationPanner.aradocumentarchive.1.0.0"
 #endif
 #ifndef  JucePlugin_ARACompatibleArchiveIDs
  #define JucePlugin_ARACompatibleArchiveIDs  ""

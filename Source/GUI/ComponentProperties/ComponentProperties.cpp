@@ -47,8 +47,8 @@ void QuasoLocalizationPannerAudioProcessorEditor::setSliderProperties()
     outputSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 70, 35);
     outputSlider.setTextValueSuffix(" dB");
     outputSlider.setColour(juce::Slider::thumbColourId, juce::Colours::white);
-    outputSlider.setColour(juce::Slider::trackColourId, CustomColors::lightGrey);
-    outputSlider.setColour(juce::Slider::backgroundColourId, CustomColors::darkerGrey.brighter(0.1f));
+    outputSlider.setColour(juce::Slider::trackColourId, CustomColors::cyan);
+    outputSlider.setColour(juce::Slider::backgroundColourId, CustomColors::lightGrey);
     outputSlider.setColour(juce::Slider::textBoxOutlineColourId, CustomColors::darkerGrey.withAlpha(0.0f));
     outputSlider.setLookAndFeel(&verticalSliderLookAndFeel);
 

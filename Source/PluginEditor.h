@@ -10,7 +10,7 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "GUI/PanningWindow.h"
-#include "GUI/Data/CustomColors.h"
+#include "GUI/Colors/CustomColors.h"
 #include "GUI/LAF/ButtonLAF.h"
 #include "GUI/LAF/VerticalSliderLAF.h"
 

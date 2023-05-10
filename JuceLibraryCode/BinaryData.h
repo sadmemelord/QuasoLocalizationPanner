@@ -8,14 +8,11 @@
 
 namespace BinaryData
 {
-    extern const char*   QPP_logo_black_png;
-    const int            QPP_logo_black_pngSize = 32621;
-
-    extern const char*   QPP_logo_red_png;
-    const int            QPP_logo_red_pngSize = 40953;
+    extern const char*   QLP_logo_white_png;
+    const int            QLP_logo_white_pngSize = 25537;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 2;
+    const int namedResourceListSize = 1;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

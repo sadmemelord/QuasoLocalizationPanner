@@ -1,7 +1,7 @@
 
 #pragma once
 #include <JuceHeader.h>
-#include "Data/CustomColors.h"
+#include "Colors/CustomColors.h"
 
 class DraggableComponent : public juce::Component
 {

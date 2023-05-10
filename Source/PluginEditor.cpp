@@ -37,7 +37,7 @@ QuasoLocalizationPannerAudioProcessorEditor::QuasoLocalizationPannerAudioProcess
     setSliderProperties();
     setGroupProperties();
 
-    logoImage = juce::ImageCache::getFromMemory(BinaryData::QPP_logo_black_png, BinaryData::QPP_logo_black_pngSize);
+    logoImage = juce::ImageCache::getFromMemory(BinaryData::QLP_logo_white_png, BinaryData::QLP_logo_white_pngSize);
 
     setSize(800, 500);
     juce::AudioProcessorEditor::setResizable(false, false);
@@ -91,7 +91,7 @@ void QuasoLocalizationPannerAudioProcessorEditor::paint(juce::Graphics& g)
 
     g.fillRect(getLocalBounds());
 
-    g.drawImageWithin(logoImage, 100, 10, 600, 60, juce::RectanglePlacement::fillDestination, false);
+    g.drawImageWithin(logoImage, 25, 10, 750, 50, juce::RectanglePlacement::fillDestination, false);
 }
 
 

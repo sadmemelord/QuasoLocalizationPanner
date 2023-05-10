@@ -85,7 +85,7 @@ void DraggableComponent::setDragableComponentLabel(juce::String& newName)
     juce::Font labelFont;
 
     labelFont.setHorizontalScale(0.9f);
-    labelFont.setHeight(15.5f);
+    labelFont.setHeight(15.f);
     labelFont.setBold(true);
     _labelName.setJustificationType(juce::Justification::centred);
     _labelName.setFont(labelFont);

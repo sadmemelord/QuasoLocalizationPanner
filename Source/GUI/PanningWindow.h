@@ -3,7 +3,7 @@
 #include <JuceHeader.h>
 #include "../PluginProcessor.h"
 #include "DraggableComponent.h"
-#include "Data/CustomColors.h"
+#include "Colors/CustomColors.h"
 
 class PanningWindow : public juce::Component, juce::ComponentListener
 {

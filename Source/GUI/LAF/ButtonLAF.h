@@ -1,7 +1,7 @@
 
 #pragma once
 #include <JuceHeader.h>
-#include "../Data/CustomColors.h"
+#include "../Colors/CustomColors.h"
 
 class ButtonLAF : public juce::LookAndFeel_V4
 {

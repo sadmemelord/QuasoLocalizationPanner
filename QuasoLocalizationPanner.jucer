@@ -3,7 +3,7 @@
 <JUCERPROJECT id="EVrGJT" name="QuasoLocalizationPanner" projectType="audioplug"
               useAppConfig="0" addUsingNamespaceToJuceHeader="0" displaySplashScreen="1"
               jucerFormatVersion="1" version="1.0.0" companyName="Alberto Roletto"
-              pluginFormats="buildVST3">
+              pluginFormats="buildAU,buildVST3">
   <MAINGROUP id="lF68lI" name="QuasoLocalizationPanner">
     <GROUP id="{A467FD8C-85B6-0E85-13E8-F60365BDD59C}" name="Source">
       <GROUP id="{F84A535C-EDDA-4745-6E51-ABAE92015535}" name="GUI">
@@ -11,16 +11,14 @@
           <FILE id="AeouK8" name="ComponentProperties.cpp" compile="1" resource="0"
                 file="Source/GUI/ComponentProperties/ComponentProperties.cpp"/>
         </GROUP>
-        <GROUP id="{3A215432-BD9E-3F91-E53C-495824972C0E}" name="Data">
-          <FILE id="pEnASY" name="CustomColors.cpp" compile="1" resource="0"
-                file="Source/GUI/Data/CustomColors.cpp"/>
-          <FILE id="TqK6vT" name="CustomColors.h" compile="0" resource="0" file="Source/GUI/Data/CustomColors.h"/>
+        <GROUP id="{3A215432-BD9E-3F91-E53C-495824972C0E}" name="Colors">
+          <FILE id="JI4Hlz" name="CustomColors.cpp" compile="1" resource="0"
+                file="Source/GUI/Colors/CustomColors.cpp"/>
+          <FILE id="H60rzi" name="CustomColors.h" compile="0" resource="0" file="Source/GUI/Colors/CustomColors.h"/>
         </GROUP>
         <GROUP id="{B13A8A02-6B6D-FD12-C93D-48796656E4E0}" name="Images">
-          <FILE id="fFMPMw" name="QPP_logo_black.png" compile="0" resource="1"
-                file="Source/GUI/Images/QPP_logo_black.png"/>
-          <FILE id="wPOBB2" name="QPP_logo_red.png" compile="0" resource="1"
-                file="Source/GUI/Images/QPP_logo_red.png"/>
+          <FILE id="gK6odk" name="QLP_logo_white.png" compile="0" resource="1"
+                file="Source/GUI/Images/QLP_logo_white.png"/>
         </GROUP>
         <GROUP id="{A0A405A3-CDFB-DF3E-AE01-3214661A0134}" name="LAF">
           <FILE id="gtbxLq" name="ButtonLAF.cpp" compile="1" resource="0" file="Source/GUI/LAF/ButtonLAF.cpp"/>
@@ -75,7 +73,8 @@
     <VS2022 targetFolder="Builds/VisualStudio2022">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" targetName="QuasoLocalizationPanner"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="QuasoLocalizationPanner"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="QuasoLocalizationPanner"
+                       useRuntimeLibDLL="0"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_audio_basics" path="../../../../../JUCE/modules"/>
